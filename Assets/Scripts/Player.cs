@@ -11,24 +11,27 @@ public class Player : MonoBehaviour
     private Vector3 _laserOffset = new Vector3();
     [SerializeField]
     private int _lives = 3;
-    
-    
-    
+    private SpawnManager _spawnManager;
+   
     private float _canFire = -1f;
     private float _fireSpeed = 0.5f;
  
     // Start is called before the first frame update
     void Start()
     {
+        _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         transform.position = new Vector3(0, 0, 0);
         _laserOffset = new Vector3(transform.position.x, 1, 0);
-       
+
+        if (_spawnManager ==null)
+        {
+            Debug.LogError("spawnManager is null");
+        }       
     }
 
     // Update is called once per frame
     void Update()
     {
-
         CalculateMovement();
 
         if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire)
@@ -70,8 +73,10 @@ public class Player : MonoBehaviour
     public void Damage()
     {
         _lives--;
+       
         if (_lives<1)
         {
+            _spawnManager.OnPlayerDeath();
             Destroy(this.gameObject);
         }
     }
