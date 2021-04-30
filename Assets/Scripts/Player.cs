@@ -15,6 +15,9 @@ public class Player : MonoBehaviour
    
     private float _canFire = -1f;
     private float _fireSpeed = 0.5f;
+    private bool _isTripleShotActive = true;
+    [SerializeField]
+    private GameObject _tripleShotPrefab;
  
     // Start is called before the first frame update
     void Start()
@@ -68,7 +71,15 @@ public class Player : MonoBehaviour
     {         
        _canFire = Time.time + _fireSpeed;
        
-        Instantiate(_laserPrefab, transform.position + _laserOffset, Quaternion.identity);       
+        if (_isTripleShotActive == false)
+        {
+            Instantiate(_laserPrefab, transform.position + _laserOffset, Quaternion.identity);
+        }               
+        else 
+        {
+            Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity);
+        }
+      
     }
     public void Damage()
     {

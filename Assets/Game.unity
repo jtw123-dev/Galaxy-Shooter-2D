@@ -515,6 +515,8 @@ MonoBehaviour:
   _laserPrefab: {fileID: 7544833353173964026, guid: 42877013436f15c4a873732d656108e7,
     type: 3}
   _lives: 3
+  _tripleShotPrefab: {fileID: 1231888029111968356, guid: 2b942bcb01613fb4080fa3db19e95ad0,
+    type: 3}
 --- !u!212 &1346795717
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -553,7 +555,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1936877999
   m_SortingLayer: 1
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 1b4a8fdd39d3a45d0a9ee484ad6800ec, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
