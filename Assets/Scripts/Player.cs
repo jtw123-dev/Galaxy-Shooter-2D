@@ -18,6 +18,7 @@ public class Player : MonoBehaviour
     private bool _isTripleShotActive = true;
     [SerializeField]
     private GameObject _tripleShotPrefab;
+    private Vector3 _tripleShotOffset = new Vector3(-3.65f, 2.28f, 0f);
  
     // Start is called before the first frame update
     void Start()
@@ -25,6 +26,7 @@ public class Player : MonoBehaviour
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         transform.position = new Vector3(0, 0, 0);
         _laserOffset = new Vector3(transform.position.x, 1, 0);
+        
 
         if (_spawnManager ==null)
         {
@@ -77,9 +79,8 @@ public class Player : MonoBehaviour
         }               
         else 
         {
-            Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity);
-        }
-      
+            Instantiate(_tripleShotPrefab, transform.position + _tripleShotOffset, Quaternion.identity);
+        }      
     }
     public void Damage()
     {
