@@ -15,10 +15,12 @@ public class Player : MonoBehaviour
    
     private float _canFire = -1f;
     private float _fireSpeed = 0.5f;
-    private bool _isTripleShotActive = true;
+    private bool _isTripleShotActive = false;
     [SerializeField]
     private GameObject _tripleShotPrefab;
     private Vector3 _tripleShotOffset = new Vector3(-3.65f, 2.28f, 0f);
+    private bool _isSpeedActive;
+    private float _speedPowerup = 16.5f;
  
     // Start is called before the first frame update
     void Start()
@@ -50,7 +52,15 @@ public class Player : MonoBehaviour
         float verticalInput = Input.GetAxis("Vertical");
 
         Vector3 direction = new Vector3(horizonatlInput, verticalInput, 0);
-        transform.Translate(direction * Time.deltaTime * _speed);
+        
+        if (_isSpeedActive==false)
+        {
+            transform.Translate(direction * Time.deltaTime * _speed);
+        }
+        else
+        {
+            transform.Translate(direction * Time.deltaTime * _speedPowerup);
+        }
 
         if (transform.position.y >= 0)
         {
@@ -91,5 +101,25 @@ public class Player : MonoBehaviour
             _spawnManager.OnPlayerDeath();
             Destroy(this.gameObject);
         }
+    }
+    public void TripleShotActive()
+    {
+        _isTripleShotActive = true;
+        StartCoroutine("TripleShotPowerDownRoutine");
+    }
+    IEnumerator TripleShotPowerDownRoutine()
+    {
+        yield return new WaitForSeconds(5);
+        _isTripleShotActive = false;           
+    }
+    public void SpeedActive ()
+    {
+        _isSpeedActive = true;
+        StartCoroutine("SpeedPowerDownRoutine");
+    }
+    IEnumerator SpeedPowerDownRoutine()
+    {
+        yield return new WaitForSeconds(5);
+        _isSpeedActive = false;
     }
 }
