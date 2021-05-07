@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -20,7 +21,13 @@ public class Player : MonoBehaviour
     private GameObject _tripleShotPrefab;
     private Vector3 _tripleShotOffset = new Vector3(-3.65f, 2.28f, 0f);
     private bool _isSpeedActive;
-    private float _speedPowerup = 16.5f;
+    private float _speedMultiplier = 2f;
+    private bool _isShieldActive;
+    [SerializeField]
+    private GameObject _shieldToggle;
+    private int _score;
+    private UIManager _manager;
+
  
     // Start is called before the first frame update
     void Start()
@@ -28,12 +35,16 @@ public class Player : MonoBehaviour
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         transform.position = new Vector3(0, 0, 0);
         _laserOffset = new Vector3(transform.position.x, 1, 0);
-        
-
+        _manager = GameObject.Find("Canvas").GetComponent<UIManager>();
+   
         if (_spawnManager ==null)
         {
             Debug.LogError("spawnManager is null");
         }       
+        if (_manager==null)
+        {
+            Debug.LogError("manager is null");
+        }
     }
 
     // Update is called once per frame
@@ -59,7 +70,7 @@ public class Player : MonoBehaviour
         }
         else
         {
-            transform.Translate(direction * Time.deltaTime * _speedPowerup);
+            transform.Translate(direction * Time.deltaTime * (_speed* _speedMultiplier));
         }
 
         if (transform.position.y >= 0)
@@ -94,7 +105,16 @@ public class Player : MonoBehaviour
     }
     public void Damage()
     {
+        if (_isShieldActive)
+        {
+            _isShieldActive = false;
+            _shieldToggle.SetActive(false);
+            return;
+        }
         _lives--;
+
+        _manager.UpdateLives(_lives);
+        
        
         if (_lives<1)
         {
@@ -110,16 +130,39 @@ public class Player : MonoBehaviour
     IEnumerator TripleShotPowerDownRoutine()
     {
         yield return new WaitForSeconds(5);
-        _isTripleShotActive = false;           
+        _isTripleShotActive = false;            
     }
     public void SpeedActive ()
     {
         _isSpeedActive = true;
+        _speed *= _speedMultiplier;
         StartCoroutine("SpeedPowerDownRoutine");
     }
     IEnumerator SpeedPowerDownRoutine()
     {
         yield return new WaitForSeconds(5);
+        _speed /= _speedMultiplier;
         _isSpeedActive = false;
     }
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.tag == "Shield")
+        {
+            _isShieldActive = true;
+            Destroy(other.gameObject);
+        }
+    }
+    public void ShieldActive()
+    {
+        _isShieldActive = true;
+        _shieldToggle.SetActive(true);
+    }
+
+    public void AddScore(int _points)
+    {
+        _score += _points;
+        _manager.ScoreUpdate(_score);
+    }
+    //method for adding 10 to  score
+    //update score to ui
 }

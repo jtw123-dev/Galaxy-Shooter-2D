@@ -43,7 +43,7 @@ public class Powerup : MonoBehaviour
                     Destroy(this.gameObject);
                     break;
                 case 2:
-                    Debug.Log("Shields");
+                    player.ShieldActive();
                     break;
 
             }
