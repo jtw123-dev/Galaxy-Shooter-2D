@@ -13,9 +13,8 @@ public class SpawnManager : MonoBehaviour
     private GameObject _tripleShotPowerup;
     [SerializeField]
     private GameObject [] _powerups;
-
-    // Start is called before the first frame update
-    void Start()
+   
+    public void StartSpawning()
     {
         StartCoroutine("SpawnEnemyRoutine");
         StartCoroutine("SpawnPowerupRoutine");
@@ -28,6 +27,7 @@ public class SpawnManager : MonoBehaviour
     }
     IEnumerator SpawnEnemyRoutine()
     {
+        yield return new WaitForSeconds(3);
         while (_stopSpawning==false)
         {
             float randomX = (Random.Range(9, -9));
