@@ -8,7 +8,7 @@ public class Enemy : MonoBehaviour
     private Player _player;
     private int _points;
     private Animator _animator;
-
+    private AudioSource _enemyExplode; // AudioSource  _audioSource;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,6 +22,8 @@ public class Enemy : MonoBehaviour
         {
             Debug.LogError("animator is null");
         }
+        _enemyExplode = GameObject.Find("Explosion_Audio").GetComponent<AudioSource>(); // _audioSource = GetComponent.<AudioSource>();
+        //if the audioSource is on the enemy
     }
 
     // Update is called once per frame
@@ -46,6 +48,7 @@ public class Enemy : MonoBehaviour
             }
             _speed = 0;
             _animator.SetTrigger("OnEnemyDeath");
+            _enemyExplode.Play();
             Destroy(this.gameObject,(2.8f));
         }
 

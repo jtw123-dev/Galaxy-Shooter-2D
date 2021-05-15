@@ -27,11 +27,31 @@ public class Player : MonoBehaviour
     private GameObject _shieldToggle;
     private int _score;
     private UIManager _manager;
-
+    [SerializeField]
+    private GameObject _rightEngine;
+    [SerializeField]
+    private GameObject _leftEngine;
+    private AudioSource _laserAudioSource,_explosion,_powerup;
+    //could also be a serialized field with laser 
+    // private AudioClip _exlosion;
+    [SerializeField]
+    private GameObject _playerExplosion;
  
     // Start is called before the first frame update
     void Start()
     {
+        _laserAudioSource = GameObject.Find("Laser_Audio").GetComponent<AudioSource>();
+       
+        if (_laserAudioSource == null)
+        {
+            Debug.LogError("laseraudio = null");
+        }
+
+        _explosion = GameObject.Find("Explosion_Audio").GetComponent<AudioSource>();
+        if (_explosion == null)
+        {
+            Debug.LogError("explosion is null");
+        }
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         transform.position = new Vector3(0, 0, 0);
         _laserOffset = new Vector3(transform.position.x, 1, 0);
@@ -101,7 +121,8 @@ public class Player : MonoBehaviour
         else 
         {
             Instantiate(_tripleShotPrefab, transform.position + _tripleShotOffset, Quaternion.identity);
-        }      
+        }
+        _laserAudioSource.Play();
     }
     public void Damage()
     {
@@ -114,10 +135,18 @@ public class Player : MonoBehaviour
         _lives--;
 
         _manager.UpdateLives(_lives);
-        
-       
+        if (_lives ==2)
+        {
+            _rightEngine.SetActive(true);
+        }
+        else if (_lives ==1)
+        {
+            _leftEngine.SetActive(true);
+        }
         if (_lives<1)
         {
+            Instantiate(_playerExplosion,transform.position, Quaternion.identity);
+            _explosion.Play();
             _spawnManager.OnPlayerDeath();
             _manager.GameOver();
             Destroy(this.gameObject);            
