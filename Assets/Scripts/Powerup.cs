@@ -9,7 +9,7 @@ public class Powerup : MonoBehaviour
     [SerializeField]
     private int _powerupID;//0 is tripleshot 1 is speed and 2 is shields
     private AudioSource _audioSource;
-
+    private int _health;
 
     // Start is called before the first frame update
     void Start()
@@ -50,7 +50,9 @@ public class Powerup : MonoBehaviour
                     player.ShieldActive();
                         _audioSource.Play();
                     break;
-
+                    case 3:
+                        player.IncreaseLife();
+                        break;
             }
         }
     }

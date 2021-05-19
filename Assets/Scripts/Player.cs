@@ -13,7 +13,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     private int _lives = 3;
     private SpawnManager _spawnManager;
-   
+
     private float _canFire = -1f;
     private float _fireSpeed = 0.5f;
     private bool _isTripleShotActive = false;
@@ -31,17 +31,19 @@ public class Player : MonoBehaviour
     private GameObject _rightEngine;
     [SerializeField]
     private GameObject _leftEngine;
-    private AudioSource _laserAudioSource,_explosion,_powerup;
+    private AudioSource _laserAudioSource, _explosion, _powerup;
     //could also be a serialized field with laser 
     // private AudioClip _exlosion;
     [SerializeField]
     private GameObject _playerExplosion;
- 
+    [SerializeField]
+    private GameObject _heal;
+
     // Start is called before the first frame update
     void Start()
     {
         _laserAudioSource = GameObject.Find("Laser_Audio").GetComponent<AudioSource>();
-       
+
         if (_laserAudioSource == null)
         {
             Debug.LogError("laseraudio = null");
@@ -56,12 +58,12 @@ public class Player : MonoBehaviour
         transform.position = new Vector3(0, 0, 0);
         _laserOffset = new Vector3(transform.position.x, 1, 0);
         _manager = GameObject.Find("Canvas").GetComponent<UIManager>();
-   
-        if (_spawnManager ==null)
+
+        if (_spawnManager == null)
         {
             Debug.LogError("spawnManager is null");
-        }       
-        if (_manager==null)
+        }
+        if (_manager == null)
         {
             Debug.LogError("manager is null");
         }
@@ -83,14 +85,14 @@ public class Player : MonoBehaviour
         float verticalInput = Input.GetAxis("Vertical");
 
         Vector3 direction = new Vector3(horizonatlInput, verticalInput, 0);
-        
-        if (_isSpeedActive==false)
+
+        if (_isSpeedActive == false)
         {
             transform.Translate(direction * Time.deltaTime * _speed);
         }
         else
         {
-            transform.Translate(direction * Time.deltaTime * (_speed* _speedMultiplier));
+            transform.Translate(direction * Time.deltaTime * (_speed * _speedMultiplier));
         }
 
         if (transform.position.y >= 0)
@@ -111,14 +113,14 @@ public class Player : MonoBehaviour
         }
     }
     void FireLaser()
-    {         
-       _canFire = Time.time + _fireSpeed;
-       
+    {
+        _canFire = Time.time + _fireSpeed;
+
         if (_isTripleShotActive == false)
         {
             Instantiate(_laserPrefab, transform.position + _laserOffset, Quaternion.identity);
-        }               
-        else 
+        }
+        else
         {
             Instantiate(_tripleShotPrefab, transform.position + _tripleShotOffset, Quaternion.identity);
         }
@@ -135,21 +137,21 @@ public class Player : MonoBehaviour
         _lives--;
 
         _manager.UpdateLives(_lives);
-        if (_lives ==2)
+        if (_lives == 2)
         {
             _rightEngine.SetActive(true);
         }
-        else if (_lives ==1)
+        else if (_lives == 1)
         {
             _leftEngine.SetActive(true);
         }
-        if (_lives<1)
+        if (_lives < 1)
         {
-            Instantiate(_playerExplosion,transform.position, Quaternion.identity);
+            Instantiate(_playerExplosion, transform.position, Quaternion.identity);
             _explosion.Play();
             _spawnManager.OnPlayerDeath();
             _manager.GameOver();
-            Destroy(this.gameObject);            
+            Destroy(this.gameObject);
         }
     }
     public void TripleShotActive()
@@ -160,9 +162,9 @@ public class Player : MonoBehaviour
     IEnumerator TripleShotPowerDownRoutine()
     {
         yield return new WaitForSeconds(5);
-        _isTripleShotActive = false;            
+        _isTripleShotActive = false;
     }
-    public void SpeedActive ()
+    public void SpeedActive()
     {
         _isSpeedActive = true;
         _speed *= _speedMultiplier;
@@ -181,6 +183,11 @@ public class Player : MonoBehaviour
             _isShieldActive = true;
             Destroy(other.gameObject);
         }
+        if (other.tag == "Heal")
+        {
+            
+            Destroy(other.gameObject);
+        }
     }
     public void ShieldActive()
     {
@@ -192,7 +199,23 @@ public class Player : MonoBehaviour
     {
         _score += _points;
         _manager.ScoreUpdate(_score);
-    }
-    //method for adding 10 to  score
-    //update score to ui
+    }            
+    public void IncreaseLife()
+    {
+        if (_lives == 3)
+        {
+            return;
+        }
+        _lives++;
+        _manager.UpdateLives(_lives);
+
+        if (_lives==3)
+        {
+            _rightEngine.SetActive(false);
+        }
+        else if (_lives ==2)
+        {
+            _leftEngine.SetActive(false);
+        }
+    }       
 }
