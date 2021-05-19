@@ -9,6 +9,8 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private Text _scoreText;
     [SerializeField]
+    private Text _ammoText;
+    [SerializeField]
     private Image _livesImg;
     [SerializeField]
     private Sprite[] _liveSprites;
@@ -29,6 +31,7 @@ public class UIManager : MonoBehaviour
         }
         _gameOverText.gameObject.SetActive(false);
         _restartGameText.gameObject.SetActive(false);
+
     }
 
     // Update is called once per frame
@@ -44,6 +47,11 @@ public class UIManager : MonoBehaviour
     {
         _livesImg.sprite = _liveSprites[currentLives];
     }
+    public void UpdateAmmoCount(int currentAmmo)
+    {
+        _ammoText.text = "Ammo: " + currentAmmo.ToString();
+    }
+        
     public void GameOver()
     {
         _gameManager.GameOver();

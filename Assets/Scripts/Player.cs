@@ -38,6 +38,8 @@ public class Player : MonoBehaviour
     private GameObject _playerExplosion;
     [SerializeField]
     private GameObject _heal;
+    private int _ammo;
+    private int _totalAmmo = 15;
 
     // Start is called before the first frame update
     void Start()
@@ -74,9 +76,10 @@ public class Player : MonoBehaviour
     {
         CalculateMovement();
 
-        if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire)
+        if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire &&_totalAmmo>0)
         {
             FireLaser();
+            AmmoCount();          
         }
     }
     private void CalculateMovement()
@@ -183,11 +186,6 @@ public class Player : MonoBehaviour
             _isShieldActive = true;
             Destroy(other.gameObject);
         }
-        if (other.tag == "Heal")
-        {
-            
-            Destroy(other.gameObject);
-        }
     }
     public void ShieldActive()
     {
@@ -217,5 +215,10 @@ public class Player : MonoBehaviour
         {
             _leftEngine.SetActive(false);
         }
-    }       
+    }      
+    public void AmmoCount()
+    {
+        _totalAmmo--;
+        _manager.UpdateAmmoCount(_totalAmmo);
+    }
 }
