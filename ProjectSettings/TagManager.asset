@@ -9,6 +9,7 @@ TagManager:
   - TripleShot
   - Shield
   - Heal
+  - AmmoPickup
   layers:
   - Default
   - TransparentFX

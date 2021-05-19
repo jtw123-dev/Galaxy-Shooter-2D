@@ -31,7 +31,6 @@ public class UIManager : MonoBehaviour
         }
         _gameOverText.gameObject.SetActive(false);
         _restartGameText.gameObject.SetActive(false);
-
     }
 
     // Update is called once per frame

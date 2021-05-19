@@ -37,6 +37,10 @@ public class Player : MonoBehaviour
     [SerializeField]
     private GameObject _playerExplosion;
     private int _totalAmmo = 15;
+    private int _shieldStrength = 3;
+    private SpriteRenderer _renderer;
+    // shield strenght --
+    //Get component sprite Renderer green yellow red
 
     // Start is called before the first frame update
     void Start()
@@ -73,12 +77,11 @@ public class Player : MonoBehaviour
     {
         CalculateMovement();
         ThrusterBoost();
-
+        
         if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire &&_totalAmmo>0)
         {
             FireLaser();
-            AmmoCount();
-           
+            AmmoCount();         
         }
     }
     private void CalculateMovement()
@@ -203,9 +206,11 @@ public class Player : MonoBehaviour
         {
             return;
         }
-        _lives++;
-        _manager.UpdateLives(_lives);
-
+        else
+        {
+            _lives++;
+            _manager.UpdateLives(_lives);
+        }
         if (_lives==3)
         {
             _rightEngine.SetActive(false);
@@ -230,5 +235,10 @@ public class Player : MonoBehaviour
         {
             _speed = 8;
         }
+    }
+    public void AmmoIncrease()
+    {
+        _totalAmmo += 5;
+        _manager.UpdateAmmoCount(_totalAmmo);
     }
 }
