@@ -36,9 +36,6 @@ public class Player : MonoBehaviour
     // private AudioClip _exlosion;
     [SerializeField]
     private GameObject _playerExplosion;
-    [SerializeField]
-    private GameObject _heal;
-    private int _ammo;
     private int _totalAmmo = 15;
 
     // Start is called before the first frame update
@@ -75,11 +72,13 @@ public class Player : MonoBehaviour
     void Update()
     {
         CalculateMovement();
+        ThrusterBoost();
 
         if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire &&_totalAmmo>0)
         {
             FireLaser();
-            AmmoCount();          
+            AmmoCount();
+           
         }
     }
     private void CalculateMovement()
@@ -220,5 +219,16 @@ public class Player : MonoBehaviour
     {
         _totalAmmo--;
         _manager.UpdateAmmoCount(_totalAmmo);
+    }
+    private void ThrusterBoost()
+    {
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            _speed = 20;
+        }
+        else
+        {
+            _speed = 8;
+        }
     }
 }
