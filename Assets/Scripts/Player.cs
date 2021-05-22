@@ -58,9 +58,12 @@ public class Player : MonoBehaviour
         {
             Debug.LogError("explosion is null");
         }
+
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         transform.position = new Vector3(0, 0, 0);
+
         _laserOffset = new Vector3(transform.position.x, 1, 0);
+        
         _manager = GameObject.Find("Canvas").GetComponent<UIManager>();
 
         if (_spawnManager == null)
