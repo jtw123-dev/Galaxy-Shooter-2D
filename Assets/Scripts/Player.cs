@@ -45,6 +45,7 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        _shieldToggle.GetComponent<SpriteRenderer>().color = Color.green;
         _laserAudioSource = GameObject.Find("Laser_Audio").GetComponent<AudioSource>();
 
         if (_laserAudioSource == null)
@@ -133,10 +134,24 @@ public class Player : MonoBehaviour
     }
     public void Damage()
     {
-        if (_isShieldActive)
+        if (_isShieldActive && _shieldStrength==3)
         {
-            _isShieldActive = false;
+            _shieldToggle.GetComponent<SpriteRenderer>().color = Color.yellow;
+            _shieldStrength = 2;
+            return;
+        }
+        if (_isShieldActive && _shieldStrength==2)
+        {
+            _shieldStrength = 1;
+            _shieldToggle.GetComponent<SpriteRenderer>().color = Color.red;
+            return;
+        }
+
+        if (_isShieldActive && _shieldStrength == 1)
+        {
+            _shieldStrength = 0;
             _shieldToggle.SetActive(false);
+            _isShieldActive = false;
             return;
         }
         _lives--;
@@ -193,6 +208,8 @@ public class Player : MonoBehaviour
     {
         _isShieldActive = true;
         _shieldToggle.SetActive(true);
+        _shieldStrength = 3;
+        _shieldToggle.GetComponent<SpriteRenderer>().color = Color.green;
     }
 
     public void AddScore(int _points)
