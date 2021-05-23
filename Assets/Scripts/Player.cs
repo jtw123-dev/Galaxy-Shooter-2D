@@ -39,8 +39,9 @@ public class Player : MonoBehaviour
     private int _totalAmmo = 15;
     private int _shieldStrength = 3;
     private SpriteRenderer _renderer;
-    // shield strenght --
-    //Get component sprite Renderer green yellow red
+    private bool _isMegaShotActive;
+    [SerializeField]
+    private GameObject _megaShotPrefab;
 
     // Start is called before the first frame update
     void Start()
@@ -125,13 +126,18 @@ public class Player : MonoBehaviour
     {
         _canFire = Time.time + _fireSpeed;
 
-        if (_isTripleShotActive == false)
+        if (_isTripleShotActive == false && _isMegaShotActive==false)
         {
             Instantiate(_laserPrefab, transform.position + _laserOffset, Quaternion.identity);
         }
-        else
+        else if (_isTripleShotActive ==true &&_isMegaShotActive==false)
         {
             Instantiate(_tripleShotPrefab, transform.position + _tripleShotOffset, Quaternion.identity);
+        }
+        
+        else  if(_isMegaShotActive ==true )
+        {
+            Instantiate(_megaShotPrefab, transform.position, Quaternion.identity);
         }
         _laserAudioSource.Play();
     }
@@ -260,5 +266,15 @@ public class Player : MonoBehaviour
     {
         _totalAmmo += 5;
         _manager.UpdateAmmoCount(_totalAmmo);
+    }
+    public void MegaShot()
+    {
+        _isMegaShotActive = true;
+        StartCoroutine("MegaShotPowerDownRoutine");
+    }
+    IEnumerator MegaShotPowerDownRoutine()
+    {
+        yield return new WaitForSeconds(5);
+        _isMegaShotActive = false;
     }
 }

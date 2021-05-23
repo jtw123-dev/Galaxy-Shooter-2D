@@ -53,10 +53,17 @@ public class Powerup : MonoBehaviour
                     case 3:
                         player.IncreaseLife();
                         Destroy(this.gameObject, 0.3f);
+                        _audioSource.Play();
                         break;
                     case 4:
                         player.AmmoIncrease();
                         Destroy(this.gameObject, 0.3f);
+                        _audioSource.Play();
+                        break;
+                    case 5:
+                        player.MegaShot();
+                        Destroy(this.gameObject, 0.3f);
+                        _audioSource.Play();
                         break;
             }
         }
