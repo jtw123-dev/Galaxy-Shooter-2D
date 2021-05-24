@@ -42,7 +42,14 @@ public class Player : MonoBehaviour
     private bool _isMegaShotActive;
     [SerializeField]
     private GameObject _megaShotPrefab;
-
+    public float currentThrusterFuel =25;
+    private float _thrustSpeedMultiplier = 2.8f;
+    public float maxThrusterFill = 50;
+    private float _thrusterUsage = 20;
+    private bool _isThrusterActive = true;
+    
+   
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -75,18 +82,22 @@ public class Player : MonoBehaviour
         {
             Debug.LogError("manager is null");
         }
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        CalculateMovement();
-        ThrusterBoost();
-        
+        CalculateMovement();     
         if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire &&_totalAmmo>0)
         {
             FireLaser();
             AmmoCount();         
+        }
+        if (currentThrusterFuel<maxThrusterFill)
+        {
+            currentThrusterFuel +=(_thrusterUsage/ 3) * Time.deltaTime; 
+            _manager.UpdateThrusterImage(currentThrusterFuel);
         }
     }
     private void CalculateMovement()
@@ -96,6 +107,7 @@ public class Player : MonoBehaviour
 
         Vector3 direction = new Vector3(horizonatlInput, verticalInput, 0);
 
+        ThrusterBoost(direction);
         if (_isSpeedActive == false)
         {
             transform.Translate(direction * Time.deltaTime * _speed);
@@ -143,6 +155,7 @@ public class Player : MonoBehaviour
     }
     public void Damage()
     {
+      
         if (_isShieldActive && _shieldStrength==3)
         {
             _shieldToggle.GetComponent<SpriteRenderer>().color = Color.yellow;
@@ -251,15 +264,29 @@ public class Player : MonoBehaviour
         _totalAmmo--;
         _manager.UpdateAmmoCount(_totalAmmo);
     }
-    private void ThrusterBoost()
-    {
-        if (Input.GetKey(KeyCode.LeftShift))
+    public void ThrusterBoost(Vector3 direction)
+    {      
+        if (Input.GetKey(KeyCode.LeftShift)&&currentThrusterFuel>0)
         {
-            _speed = 20;
+            if (_isThrusterActive == true)
+            {
+                transform.Translate(direction * (_speed * _thrustSpeedMultiplier) * Time.deltaTime);
+                currentThrusterFuel -= _thrusterUsage * Time.deltaTime;
+                _manager.UpdateThrusterImage(currentThrusterFuel);
+            }
+            else
+            {
+                transform.Translate(direction * _speed * Time.deltaTime);
+                return;
+            }
+        }
+        else if (Input.GetKey(KeyCode.LeftShift)&&currentThrusterFuel<=0)
+        {
+            StartCoroutine("ThrusterCoolDown");
         }
         else
         {
-            _speed = 8;
+            transform.Translate(direction * _speed * Time.deltaTime);
         }
     }
     public void AmmoIncrease()
@@ -276,5 +303,13 @@ public class Player : MonoBehaviour
     {
         yield return new WaitForSeconds(5);
         _isMegaShotActive = false;
+    }      
+    
+    
+    private IEnumerator ThrusterCoolDown()
+    {
+        _isThrusterActive = false;
+        yield return new WaitForSeconds(5);
+        _isThrusterActive = true;     
     }
 }

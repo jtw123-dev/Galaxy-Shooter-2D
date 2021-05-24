@@ -19,7 +19,11 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private Text _restartGameText;
     private GameManager _gameManager;
-   
+    [SerializeField]
+    private Text _thrusterText;
+    [SerializeField]
+    private Image _thrusterImage;
+    private Player _player;
 
     // Start is called before the first frame update
     void Start()
@@ -31,6 +35,11 @@ public class UIManager : MonoBehaviour
         }
         _gameOverText.gameObject.SetActive(false);
         _restartGameText.gameObject.SetActive(false);
+        _player = GameObject.Find("Player").GetComponent<Player>();
+        if (_player==null)
+        {
+            Debug.LogError("Player is null");
+        }
     }
 
     // Update is called once per frame
@@ -49,6 +58,11 @@ public class UIManager : MonoBehaviour
     public void UpdateAmmoCount(int currentAmmo)
     {
         _ammoText.text = "Ammo: " + currentAmmo.ToString();
+    }
+    public void UpdateThrusterImage (float currentThruster)
+    {
+        _thrusterImage.fillAmount = Mathf.Clamp(_player.currentThrusterFuel / _player.maxThrusterFill, 0, 1f);
+        _thrusterText.text = "Fuel: " + currentThruster.ToString();
     }
         
     public void GameOver()
