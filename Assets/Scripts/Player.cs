@@ -47,6 +47,7 @@ public class Player : MonoBehaviour
     public float maxThrusterFill = 50;
     private float _thrusterUsage = 20;
     private bool _isThrusterActive = true;
+    private CameraShake _cameraShake;
     
    
     
@@ -82,7 +83,12 @@ public class Player : MonoBehaviour
         {
             Debug.LogError("manager is null");
         }
-        
+
+        _cameraShake = GameObject.Find("Main Camera").GetComponent<CameraShake>();
+        if (_cameraShake==null)
+        {
+            Debug.LogError("camera is null");
+        }
     }
 
     // Update is called once per frame
@@ -155,7 +161,8 @@ public class Player : MonoBehaviour
     }
     public void Damage()
     {
-      
+        _cameraShake.Shake();
+
         if (_isShieldActive && _shieldStrength==3)
         {
             _shieldToggle.GetComponent<SpriteRenderer>().color = Color.yellow;
@@ -303,9 +310,7 @@ public class Player : MonoBehaviour
     {
         yield return new WaitForSeconds(5);
         _isMegaShotActive = false;
-    }      
-    
-    
+    }        
     private IEnumerator ThrusterCoolDown()
     {
         _isThrusterActive = false;
