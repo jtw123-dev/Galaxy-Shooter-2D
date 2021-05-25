@@ -776,16 +776,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Mega_Shot
       objectReference: {fileID: 0}
-    - target: {fileID: 7084458967780335937, guid: 126c54a906062f34aab3a711dcbddf93,
-        type: 3}
-      propertyPath: m_SortingLayer
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7084458967780335937, guid: 126c54a906062f34aab3a711dcbddf93,
-        type: 3}
-      propertyPath: m_SortingLayerID
-      value: -1252949445
-      objectReference: {fileID: 0}
     - target: {fileID: 7084458967780335938, guid: 126c54a906062f34aab3a711dcbddf93,
         type: 3}
       propertyPath: m_RootOrder
@@ -2348,7 +2338,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1346795714}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -7.7, y: -1.4, z: 0}
   m_LocalScale: {x: 0.8, y: 0.8, z: 0}
   m_Children:
   - {fileID: 1488465929}

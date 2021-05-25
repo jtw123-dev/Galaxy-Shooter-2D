@@ -10,6 +10,7 @@ TagManager:
   - Shield
   - Heal
   - AmmoPickup
+  - EnemyLaser
   layers:
   - Default
   - TransparentFX
