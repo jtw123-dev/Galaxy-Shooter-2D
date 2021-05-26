@@ -60,13 +60,11 @@ public class UIManager : MonoBehaviour
     {
         if (currentAmmo<30)
         {
-            _ammoText.text = "Current Ammo: " + currentAmmo.ToString();
-        }
-              
-        else if (currentAmmo==30)
+            _ammoText.text =  "Current/ " + currentAmmo.ToString()+ "Max30 ";
+        }             
+        else if (currentAmmo>=30)
         {
-            _ammoText.text = "Max " + currentAmmo.ToString();
-          
+            _ammoText.text =  "Max " + currentAmmo.ToString();        
         }
     }
     public void UpdateThrusterImage (float currentThruster)
