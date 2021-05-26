@@ -24,6 +24,7 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private Image _thrusterImage;
     private Player _player;
+    private bool _isMaxAmmo;
 
     // Start is called before the first frame update
     void Start()
@@ -56,11 +57,16 @@ public class UIManager : MonoBehaviour
         _livesImg.sprite = _liveSprites[currentLives];
     }
     public void UpdateAmmoCount(int currentAmmo)
-    {//
-        _ammoText.text = "Ammo: " + currentAmmo.ToString() + "Max ";
-        if (currentAmmo==30)
+    {
+        if (currentAmmo<30)
         {
-
+            _ammoText.text = "Current Ammo: " + currentAmmo.ToString();
+        }
+              
+        else if (currentAmmo==30)
+        {
+            _ammoText.text = "Max " + currentAmmo.ToString();
+          
         }
     }
     public void UpdateThrusterImage (float currentThruster)

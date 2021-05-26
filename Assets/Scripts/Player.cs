@@ -36,7 +36,7 @@ public class Player : MonoBehaviour
     // private AudioClip _exlosion;
     [SerializeField]
     private GameObject _playerExplosion;
-    private int _totalAmmo = 15;
+    private int _totalAmmo = 25;
     private int _shieldStrength = 3;
     private SpriteRenderer _renderer;
     private bool _isMegaShotActive;
@@ -89,6 +89,7 @@ public class Player : MonoBehaviour
         {
             Debug.LogError("camera is null");
         }
+        
     }
 
     // Update is called once per frame
@@ -298,8 +299,17 @@ public class Player : MonoBehaviour
     }
     public void AmmoIncrease()
     {
-        _totalAmmo += 5;
-        _manager.UpdateAmmoCount(_totalAmmo);
+        if (_totalAmmo<30)
+        {
+            _totalAmmo += 5;
+            _manager.UpdateAmmoCount(_totalAmmo);           
+        }
+        else if (_totalAmmo>30)
+        {
+            _totalAmmo = 30;
+            _manager.UpdateAmmoCount(_totalAmmo);
+        }
+        
     }
     public void MegaShot()
     {
