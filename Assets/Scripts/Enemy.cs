@@ -13,6 +13,7 @@ public class Enemy : MonoBehaviour
     private GameObject _enemyLaserPrefab;
     private float _fireRate = 3;
     private float _canFire = -1;
+    private bool _sidewaysActive;
 
     void Start()
     {
@@ -33,8 +34,16 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        CalculateMovement();
-       
+        if (_sidewaysActive==false)
+        {
+            CalculateMovement();
+        }
+        else
+        {
+            StartCoroutine("SideWaysActive");
+        }
+            
+        
         if (Time.time>_canFire)
         {
             _fireRate = Random.Range(3, 7);
@@ -46,6 +55,7 @@ public class Enemy : MonoBehaviour
                 lasers[i].AssignEnemyLaser();
             }
         }
+        
     }
 
     private void CalculateMovement()
@@ -55,7 +65,19 @@ public class Enemy : MonoBehaviour
         {
             float randomX = Random.Range(8.7f, -8.7f);
             transform.position = new Vector3(randomX, 6, 0);
+            _sidewaysActive = true;
         }
+    }
+    private void SideWaysMovement()
+    {        
+            transform.Translate(Vector3.right * Time.deltaTime * _speed);
+            if (transform.position.y <= -5)
+            {
+                float randomX = Random.Range(8.7f, -8.7f);
+                transform.position = new Vector3(randomX, 6, 0);
+                _sidewaysActive = false;
+                CalculateMovement();
+            }       
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -87,5 +109,15 @@ public class Enemy : MonoBehaviour
             _animator.SetTrigger("OnEnemyDeath");
             Destroy(this.gameObject,(2.8f));
         }           
+    }
+    private  IEnumerator SideWaysActive ()
+    {
+        yield return new WaitForSeconds(1);
+        while (_sidewaysActive==true)
+        {
+            SideWaysMovement();
+            yield return new WaitForSeconds(Random.Range(1, 3));
+            _sidewaysActive = false;
+        }          
     }
 }

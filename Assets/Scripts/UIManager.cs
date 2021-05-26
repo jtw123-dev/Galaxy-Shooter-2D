@@ -56,8 +56,12 @@ public class UIManager : MonoBehaviour
         _livesImg.sprite = _liveSprites[currentLives];
     }
     public void UpdateAmmoCount(int currentAmmo)
-    {
-        _ammoText.text = "Ammo: " + currentAmmo.ToString();
+    {//
+        _ammoText.text = "Ammo: " + currentAmmo.ToString() + "Max ";
+        if (currentAmmo==30)
+        {
+
+        }
     }
     public void UpdateThrusterImage (float currentThruster)
     {
