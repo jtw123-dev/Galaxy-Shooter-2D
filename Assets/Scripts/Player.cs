@@ -333,4 +333,13 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(5);
         _isThrusterActive = true;     
     }
+    public IEnumerator SlowPoison()
+    {
+        yield return new WaitForSeconds(3);
+        Damage();
+    }
+    public void ActivatePoison()
+    {
+        StartCoroutine("SlowPoison");
+    }
 }

@@ -65,6 +65,11 @@ public class Powerup : MonoBehaviour
                         Destroy(this.gameObject, 0.3f);
                         _audioSource.Play();
                         break;
+                    case 6:
+                        player.ActivatePoison();
+                        Destroy(this.gameObject, 0.3f);
+                        _audioSource.Play();
+                        break;
             }
         }
     }
