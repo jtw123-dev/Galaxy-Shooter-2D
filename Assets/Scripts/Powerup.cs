@@ -29,6 +29,7 @@ public class Powerup : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Player" )
+
         {
             Player player = other.transform.GetComponent<Player>();
             //AudioSource.PlayClipAtPoint(_clip,transform.position);
@@ -49,6 +50,7 @@ public class Powerup : MonoBehaviour
                 case 2:
                     player.ShieldActive();
                         _audioSource.Play();
+                        Destroy(this.gameObject, 0.3f);
                     break;
                     case 3:
                         player.IncreaseLife();
@@ -70,7 +72,12 @@ public class Powerup : MonoBehaviour
                         Destroy(this.gameObject, 0.3f);
                         _audioSource.Play();
                         break;
-            }
+            } 
         }
-    }
-}
+        if (other.tag == "EnemyLaser")
+        {
+            Destroy(gameObject);
+        }
+    }   
+    }   
+

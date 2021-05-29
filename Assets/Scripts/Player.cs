@@ -49,12 +49,15 @@ public class Player : MonoBehaviour
     private float _thrusterUsage = 20;
     private bool _isThrusterActive = true;
     private CameraShake _cameraShake;
+    private Powerup _powerupScript;
     
    
     
     // Start is called before the first frame update
     void Start()
     {
+        
+
         _shieldToggle.GetComponent<SpriteRenderer>().color = Color.green;
         _laserAudioSource = GameObject.Find("Laser_Audio").GetComponent<AudioSource>();
 
@@ -90,6 +93,7 @@ public class Player : MonoBehaviour
         {
             Debug.LogError("camera is null");
         }
+        
         
     }
 
@@ -342,4 +346,16 @@ public class Player : MonoBehaviour
     {
         StartCoroutine("SlowPoison");
     }
+    public void GrabPowerUp()
+    {
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+
+        }
+          
+
+
+
+
+    }  
 }

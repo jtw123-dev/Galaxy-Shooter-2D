@@ -11,6 +11,7 @@ TagManager:
   - Heal
   - AmmoPickup
   - EnemyLaser
+  - Powerup
   layers:
   - Default
   - TransparentFX

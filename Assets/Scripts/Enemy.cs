@@ -42,9 +42,14 @@ public class Enemy : MonoBehaviour
         {
             StartCoroutine("SideWaysActive");
         }
-            
+
+        FireEnemyLaser();
         
-        if (Time.time>_canFire)
+        
+    }
+    private void FireEnemyLaser()
+    {
+        if (Time.time > _canFire)
         {
             _fireRate = Random.Range(3, 7);
             _canFire = Time.time + _fireRate;
@@ -55,7 +60,6 @@ public class Enemy : MonoBehaviour
                 lasers[i].AssignEnemyLaser();
             }
         }
-        
     }
 
     private void CalculateMovement()
@@ -108,7 +112,16 @@ public class Enemy : MonoBehaviour
             _speed = 0;
             _animator.SetTrigger("OnEnemyDeath");
             Destroy(this.gameObject,(2.8f));
-        }           
+        }       
+        if (other.tag=="Powerup")
+        {
+            GameObject enemyLaser = Instantiate(_enemyLaserPrefab, transform.position, Quaternion.identity);
+            Laser[] lasers = enemyLaser.GetComponentsInChildren<Laser>();
+            for (int i = 0; i < lasers.Length; i++)
+            {
+                lasers[i].AssignEnemyLaser();
+            }
+        }
     }
     private  IEnumerator SideWaysActive ()
     {

@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 4323072686720437151}
   m_Layer: 0
   m_Name: Health
-  m_TagString: Heal
+  m_TagString: Powerup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

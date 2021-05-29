@@ -15,6 +15,10 @@ public class SpawnManager : MonoBehaviour
     private GameObject [] _powerups;
     [SerializeField]
     private GameObject _megaShot;
+    private int _enemyCount;
+    private int _waveID;
+
+    
    
     public void StartSpawning()
     {
@@ -28,14 +32,34 @@ public class SpawnManager : MonoBehaviour
     {
         
     }
+   
     IEnumerator SpawnEnemyRoutine()
     {
         yield return new WaitForSeconds(3);
         while (_stopSpawning==false)
         {
-            float randomX = (Random.Range(9, -9));
-            GameObject newEnemy = Instantiate(_enemyPrefab, new Vector3(randomX,9,0),Quaternion.identity);
-            newEnemy.transform.parent = _enemyContainer.transform;
+            switch (_waveID)
+            {
+                case 0:
+                    for (int i =0;i<2; i ++)
+                    {
+                        float randomX = (Random.Range(9, -9));
+                        GameObject newEnemy = Instantiate(_enemyPrefab, new Vector3(randomX, 9, 0), Quaternion.identity);
+                        newEnemy.transform.parent = _enemyContainer.transform;
+                    }
+                    break;
+                case 1:
+                    {
+                        for (int i=0;i<6;i ++)
+                        {
+                            float randomX = (Random.Range(9, -9));
+                            GameObject newEnemy = Instantiate(_enemyPrefab, new Vector3(randomX, 9, 0), Quaternion.identity);
+                            newEnemy.transform.parent = _enemyContainer.transform;
+                            Debug.Log(_enemyCount);
+                        }
+                        break;
+                    }
+            }                                   
             yield return new WaitForSeconds(5);
         }
     }
@@ -62,3 +86,9 @@ public class SpawnManager : MonoBehaviour
         _stopSpawning = true;
     }
 }
+//int maxSpawnObjects = 10
+//for (int i = 1; i < maxSpawnObjects; i++)
+//{
+  //  position = new Vector3(Random.Range(481.5735, 559.3441), -791.811, Random.Range(380.1254, 420.0663));
+  //  yield WaitForSeconds(5.0);
+//Instantiate(objs[(Random.Range(0, 3))], position, Quaternion.identity);
