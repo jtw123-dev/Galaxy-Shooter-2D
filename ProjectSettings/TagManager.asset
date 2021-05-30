@@ -12,6 +12,7 @@ TagManager:
   - AmmoPickup
   - EnemyLaser
   - Powerup
+  - Ram
   layers:
   - Default
   - TransparentFX

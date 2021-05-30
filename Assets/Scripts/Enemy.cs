@@ -14,6 +14,9 @@ public class Enemy : MonoBehaviour
     private float _fireRate = 3;
     private float _canFire = -1;
     private bool _sidewaysActive;
+    [SerializeField]
+    private GameObject _enemyShield;
+    private bool _enemyShieldActive ;
 
     void Start()
     {
@@ -90,16 +93,26 @@ public class Enemy : MonoBehaviour
         {
             Destroy(other.gameObject);
 
-            if (_player!=null)
+            if (_player!=null &&_enemyShieldActive==false)
             {
                 _player.AddScore(10);
             }
-            _speed = 0;
-            _animator.SetTrigger("OnEnemyDeath");
-            _enemyExplode.Play();
-            Destroy(GetComponent<Collider2D>());
-            Destroy(this.gameObject,(2.8f));
+            if (_enemyShieldActive==true)
+            {
+                _enemyShieldActive = false;
+                return;
+            }
+            else
+            {
+                _speed = 0;
+                _animator.SetTrigger("OnEnemyDeath");
+                _enemyExplode.Play();
+                Destroy(GetComponent<Collider2D>());
+                Destroy(this.gameObject, (2.8f));
+            }
+            
         }
+        
 
         if (other.tag=="Player")
         {
@@ -109,6 +122,7 @@ public class Enemy : MonoBehaviour
             {
                 player.Damage();             
             }
+            
             _speed = 0;
             _animator.SetTrigger("OnEnemyDeath");
             Destroy(this.gameObject,(2.8f));
@@ -121,6 +135,10 @@ public class Enemy : MonoBehaviour
             {
                 lasers[i].AssignEnemyLaser();
             }
+        }
+        if (other.tag=="Ram")
+        {
+            _speed = 12;
         }
     }
     private  IEnumerator SideWaysActive ()

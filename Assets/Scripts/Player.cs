@@ -241,10 +241,14 @@ public class Player : MonoBehaviour
     }
     public void ShieldActive()
     {
-        _isShieldActive = true;
-        _shieldToggle.SetActive(true);
-        _shieldStrength = 3;
-        _shieldToggle.GetComponent<SpriteRenderer>().color = Color.green;
+        if (tag == "Player")
+        {
+            _isShieldActive = true;
+            _shieldToggle.SetActive(true);
+            _shieldStrength = 3;
+            _shieldToggle.GetComponent<SpriteRenderer>().color = Color.green;
+        }
+       
     }
 
     public void AddScore(int _points)
@@ -348,9 +352,9 @@ public class Player : MonoBehaviour
     }
     public void GrabPowerUp()
     {
-        if (Input.GetKeyDown(KeyCode.C))
+        if (Input.GetKeyDown(KeyCode.C)&&tag=="Powerup")
         {
-
+           
         }
           
 

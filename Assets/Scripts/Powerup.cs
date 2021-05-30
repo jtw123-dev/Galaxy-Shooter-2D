@@ -10,10 +10,12 @@ public class Powerup : MonoBehaviour
     private int _powerupID;//0 is tripleshot 1 is speed and 2 is shields
     private AudioSource _audioSource;
     private int _health;
+    private Player _player;
 
     // Start is called before the first frame update
     void Start()
     {
+        _player = GameObject.Find("Player").GetComponent<Player>();
         _audioSource = GetComponent<AudioSource>();
     }
 
@@ -77,6 +79,11 @@ public class Powerup : MonoBehaviour
         if (other.tag == "EnemyLaser")
         {
             Destroy(gameObject);
+        }
+        if (other.tag=="Powerup"&& Input.GetKeyDown(KeyCode.C))
+        {
+            other.gameObject.transform.position = Vector3.MoveTowards(other.gameObject.transform.position, _player.transform.position, _speed);
+
         }
     }   
     }   
