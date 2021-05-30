@@ -4,28 +4,17 @@ using UnityEngine;
 
 public class ColliderHelp : MonoBehaviour
 {
-   private int  _speed =  10;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+   private int  _speed =  13;
     public void OnTriggerStay2D(Collider2D other)
-    {
-        
+    {       
         if (other.tag=="Player")
         {
             Debug.Log("hi");
         }
         if (other.tag=="Player"&&Input.GetKey(KeyCode.C))
         {
-            this.gameObject.transform.position = Vector3.MoveTowards(transform.position, other.transform.position, _speed);
+            this.gameObject.transform.parent.position = Vector3.MoveTowards(transform.position, other.transform.position, _speed *Time.deltaTime);
+            Destroy(this.gameObject, 3f);
         }
     }
 }

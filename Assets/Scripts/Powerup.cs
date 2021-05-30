@@ -15,6 +15,7 @@ public class Powerup : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+ 
         _player = GameObject.Find("Player").GetComponent<Player>();
         _audioSource = GetComponent<AudioSource>();
     }
@@ -22,7 +23,7 @@ public class Powerup : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (transform.position.y <=-6)
+        if (transform.position.y <= -6)
         {
             Destroy(this.gameObject);
         }
@@ -30,30 +31,30 @@ public class Powerup : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "Player" )
+        if (other.tag == "Player")
 
         {
             Player player = other.transform.GetComponent<Player>();
             //AudioSource.PlayClipAtPoint(_clip,transform.position);
             if (player != null)
-                
-            switch (_powerupID)
-            {
-                case 0:
-                    player.TripleShotActive();
-                        _audioSource.Play();
-                    Destroy(this.gameObject,0.3f);
-                    break;
-                case 1:
-                    player.SpeedActive();
-                        _audioSource.Play();
-                    Destroy(this.gameObject,0.3f);
-                    break;
-                case 2:
-                    player.ShieldActive();
+
+                switch (_powerupID)
+                {
+                    case 0:
+                        player.TripleShotActive();
                         _audioSource.Play();
                         Destroy(this.gameObject, 0.3f);
-                    break;
+                        break;
+                    case 1:
+                        player.SpeedActive();
+                        _audioSource.Play();
+                        Destroy(this.gameObject, 0.3f);
+                        break;
+                    case 2:
+                        player.ShieldActive();
+                        _audioSource.Play();
+                        Destroy(this.gameObject, 0.3f);
+                        break;
                     case 3:
                         player.IncreaseLife();
                         Destroy(this.gameObject, 0.3f);
@@ -74,17 +75,12 @@ public class Powerup : MonoBehaviour
                         Destroy(this.gameObject, 0.3f);
                         _audioSource.Play();
                         break;
-            } 
+                }
         }
         if (other.tag == "EnemyLaser")
         {
             Destroy(gameObject);
         }
-        if (other.tag=="Powerup"&& Input.GetKeyDown(KeyCode.C))
-        {
-            other.gameObject.transform.position = Vector3.MoveTowards(other.gameObject.transform.position, _player.transform.position, _speed);
-
-        }
     }   
-    }   
+}
 
