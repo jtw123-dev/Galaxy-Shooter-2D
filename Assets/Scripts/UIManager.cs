@@ -25,6 +25,9 @@ public class UIManager : MonoBehaviour
     private Image _thrusterImage;
     private Player _player;
     private bool _isMaxAmmo;
+    [SerializeField]
+    private Text _waveText;
+    public int currentWave;
 
     // Start is called before the first frame update
     void Start()
@@ -41,6 +44,7 @@ public class UIManager : MonoBehaviour
         {
             Debug.LogError("Player is null");
         }
+        StartCoroutine(WaveFlicker(currentWave));
     }
 
     // Update is called once per frame
@@ -51,6 +55,12 @@ public class UIManager : MonoBehaviour
     public void ScoreUpdate(int playerScore)
     {
         _scoreText.text = "Score: " + playerScore.ToString();
+    }
+
+    public void WaveUpdate (int currentWave)
+    {
+        _waveText.text = "Wave: 0";
+        StartCoroutine(WaveFlicker(currentWave));
     }
     public void UpdateLives(int currentLives)
     {
@@ -89,4 +99,15 @@ public class UIManager : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
         }    
     }  
+     public IEnumerator  WaveFlicker (int currentWave)
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            _waveText.gameObject.SetActive(true);
+            _waveText.text = "Wave: " + currentWave.ToString();
+            yield return new WaitForSeconds(0.6f);
+            _waveText.gameObject.SetActive(false);
+            yield return new WaitForSeconds(0.6f);
+        }
+    }
 }

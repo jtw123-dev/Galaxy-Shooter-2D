@@ -17,9 +17,17 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private GameObject _enemyShield;
     private bool _enemyShieldActive ;
+    private SpawnManager _manager;
+    private bool _canScore = true;
 
     void Start()
     {
+        _manager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
+        if (_manager==null)
+        {
+            Debug.LogError("_manager is null");
+        }
+
         _player = GameObject.Find("Player").GetComponent<Player>();
         if (_player ==null)
         {
@@ -87,14 +95,16 @@ public class Enemy : MonoBehaviour
             }       
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    public void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag=="Laser")
         {
+            
             Destroy(other.gameObject);
 
             if (_player!=null &&_enemyShieldActive==false)
             {
+                
                 _player.AddScore(10);
             }
             if (_enemyShieldActive==true)
@@ -104,25 +114,24 @@ public class Enemy : MonoBehaviour
             }
             else
             {
-                _speed = 0;
+                _speed = 0;              
                 _animator.SetTrigger("OnEnemyDeath");
                 _enemyExplode.Play();
                 Destroy(GetComponent<Collider2D>());
                 Destroy(this.gameObject, (2.8f));
-            }
-            
-        }
-        
-
+                _manager.EnemyDeath();
+            }           
+        }       
         if (other.tag=="Player")
         {
             Player player = other.transform.GetComponent<Player>();
             
             if (player !=null)
             {
-                player.Damage();             
+                player.Damage();                                                         
             }
-            
+            Destroy(GetComponent<Collider2D>());
+            _manager.EnemyDeath();
             _speed = 0;
             _animator.SetTrigger("OnEnemyDeath");
             Destroy(this.gameObject,(2.8f));
@@ -151,4 +160,5 @@ public class Enemy : MonoBehaviour
             _sidewaysActive = false;
         }          
     }
+    
 }

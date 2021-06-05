@@ -15,7 +15,7 @@ public class Powerup : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
- 
+
         _player = GameObject.Find("Player").GetComponent<Player>();
         _audioSource = GetComponent<AudioSource>();
     }
@@ -81,6 +81,6 @@ public class Powerup : MonoBehaviour
         {
             Destroy(gameObject);
         }
-    }   
+    }
 }
 

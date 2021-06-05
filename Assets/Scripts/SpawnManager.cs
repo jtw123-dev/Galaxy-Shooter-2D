@@ -16,56 +16,92 @@ public class SpawnManager : MonoBehaviour
     [SerializeField]
     private GameObject _megaShot;
     private int _enemyCount;
+    [SerializeField]
     private int _waveID;
-
+    private bool _asteriodExploded;
+    private UIManager _manager;
+    public int totalWave;
+    private bool _itemStop = false;
+    public GameObject[] spawnArray;
+    public List<GameObject> spawnList = new List<GameObject>();
+   // private GameObject newEnemy;
     
-   
     public void StartSpawning()
     {
-        StartCoroutine("SpawnEnemyRoutine");
-        StartCoroutine("SpawnPowerupRoutine");
-        StartCoroutine("SpawnMegaShotRoutine");
-    }
+        _manager = GameObject.Find("Canvas").GetComponent<UIManager>();
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        StartCoroutine("SpawnPowerupRoutine");
+        StartCoroutine("SpawnMegaShotRoutine");      
     }
-   
+    public void Update()
+    {      
+        if (_asteriodExploded ==true)
+        {           
+            StartCoroutine("SpawnEnemyRoutine");
+        }       
+    }
     IEnumerator SpawnEnemyRoutine()
     {
         yield return new WaitForSeconds(3);
+        
         while (_stopSpawning==false)
         {
             switch (_waveID)
             {
                 case 0:
-                    for (int i =0;i<2; i ++)
+                    for (int i =0;i<1; i ++)
                     {
                         float randomX = (Random.Range(9, -9));
-                        GameObject newEnemy = Instantiate(_enemyPrefab, new Vector3(randomX, 9, 0), Quaternion.identity);
+                        GameObject newEnemy = Instantiate(spawnArray[0], new Vector3(randomX, 9, 0), Quaternion.identity);
                         newEnemy.transform.parent = _enemyContainer.transform;
+                        spawnList.Add(newEnemy);
+                        _enemyCount++;                   
+                        
+                        if (_enemyCount==1)
+                        {              
+                            _stopSpawning = true;                          
+                        }                          
                     }
                     break;
                 case 1:
+                    for (int i =0;i<2;i++)
                     {
-                        for (int i=0;i<6;i ++)
+                        float randomX = (Random.Range(9, -9));
+                        GameObject newEnemy = Instantiate(spawnArray[0], new Vector3(randomX, 9, 0), Quaternion.identity);
+                        newEnemy.transform.parent = _enemyContainer.transform;
+                        spawnList.Add(newEnemy);
+                        _enemyCount++;
+                        
+                        if (_enemyCount==2)
                         {
-                            float randomX = (Random.Range(9, -9));
-                            GameObject newEnemy = Instantiate(_enemyPrefab, new Vector3(randomX, 9, 0), Quaternion.identity);
-                            newEnemy.transform.parent = _enemyContainer.transform;
-                            Debug.Log(_enemyCount);
+                                        
+                            _stopSpawning = true;
+                            
                         }
-                        break;
                     }
-            }                                   
-            yield return new WaitForSeconds(5);
+                    break;
+                case 2:
+                    for (int i =0;i<3;i++)
+                    {
+                        float randomX = (Random.Range(9, -9));
+                        GameObject newEnemy = Instantiate(spawnArray[0], new Vector3(randomX, 9, 0), Quaternion.identity);
+                        newEnemy.transform.parent = _enemyContainer.transform;
+                        spawnList.Add(newEnemy);
+                        _enemyCount++;                                           
+
+                        if (_enemyCount==3)
+                        {       
+                            _stopSpawning = true;                          
+                            _waveID = -1;
+                        }
+                    }
+                    break;              
+            }           
         }
     }
     IEnumerator  SpawnPowerupRoutine ()
     {
-        while (_stopSpawning == false)
+        while ( _itemStop==false)
         {
             int randomPowerup = Random.Range(0, 6);
             Instantiate(_powerups[randomPowerup], new Vector3(Random.Range(-9, 9), 8, 0), Quaternion.identity);
@@ -74,7 +110,7 @@ public class SpawnManager : MonoBehaviour
     }
     IEnumerator SpawnMegaShotRoutine()
     {
-        while (_stopSpawning == false)
+        while (_itemStop==false)
         {
             Instantiate(_megaShot, new Vector3(Random.Range(-9, 9), 8, 0), Quaternion.identity);
             yield return new WaitForSeconds(Random.Range(20,30));
@@ -84,11 +120,32 @@ public class SpawnManager : MonoBehaviour
     public void OnPlayerDeath ()
     {
         _stopSpawning = true;
+        _itemStop = true;
+    }
+    public IEnumerator WaitToRespawn()
+    {
+        yield return new WaitForSeconds(3);
+        NewWave(totalWave);
+    }
+
+    public void NewWave(int totalWave)
+    {
+        _waveID++;
+        totalWave = _waveID ;       
+        _manager.WaveUpdate(totalWave);
+        _stopSpawning = false;
+    }
+
+    public void EnemyDeath( )
+    {      
+        _enemyCount--;       
+        if (_enemyCount==0)
+        {         
+            StartCoroutine("WaitToRespawn");                          
+        }                     
+    }   
+    public void AsteriodStart()
+    {
+        _asteriodExploded = true;
     }
 }
-//int maxSpawnObjects = 10
-//for (int i = 1; i < maxSpawnObjects; i++)
-//{
-  //  position = new Vector3(Random.Range(481.5735, 559.3441), -791.811, Random.Range(380.1254, 420.0663));
-  //  yield WaitForSeconds(5.0);
-//Instantiate(objs[(Random.Range(0, 3))], position, Quaternion.identity);
