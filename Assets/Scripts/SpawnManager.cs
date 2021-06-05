@@ -2,6 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public class SpawnBehavior
+{
+    public Random random;
+    public string names;
+    public int ID;
+
+    public SpawnBehavior(Random random,string names,int ID )
+    {
+        this.random = random;
+        this.names = names;
+        this.ID = ID;
+    }
+}
+
+
+
 public class SpawnManager : MonoBehaviour
 {
     [SerializeField]
@@ -24,14 +40,20 @@ public class SpawnManager : MonoBehaviour
     private bool _itemStop = false;
     public GameObject[] spawnArray;
     public List<GameObject> spawnList = new List<GameObject>();
-   // private GameObject newEnemy;
-    
+    // private GameObject newEnemy;
+    private int _powerupRarity;
+   
+
+    private GameObject _health;
+
+   // _health = new SpawnBehavior()
     public void StartSpawning()
     {
         _manager = GameObject.Find("Canvas").GetComponent<UIManager>();
 
-        StartCoroutine("SpawnPowerupRoutine");
-        StartCoroutine("SpawnMegaShotRoutine");      
+        StartCoroutine("SpawnCommonPowerupRoutine");
+        StartCoroutine("SpawnMegaShotRoutine");
+        StartCoroutine("SpawnRarePowerupRoutine");
     }
     public void Update()
     {      
@@ -99,21 +121,21 @@ public class SpawnManager : MonoBehaviour
             }           
         }
     }
-    IEnumerator  SpawnPowerupRoutine ()
+    IEnumerator  SpawnCommonPowerupRoutine ()
     {
-        while ( _itemStop==false)
+         while ( _itemStop==false)
         {
-            int randomPowerup = Random.Range(0, 6);
-            Instantiate(_powerups[randomPowerup], new Vector3(Random.Range(-9, 9), 8, 0), Quaternion.identity);
-            yield return new WaitForSeconds(Random.Range(3, 7));
-        }      
+                    int randomPowerup = Random.Range(0, 2);
+                    Instantiate(_powerups[randomPowerup], new Vector3(Random.Range(-9, 9), 8, 0), Quaternion.identity);
+                    yield return new WaitForSeconds(Random.Range(3, 5));
+                }
     }
     IEnumerator SpawnMegaShotRoutine()
     {
         while (_itemStop==false)
         {
             Instantiate(_megaShot, new Vector3(Random.Range(-9, 9), 8, 0), Quaternion.identity);
-            yield return new WaitForSeconds(Random.Range(20,30));
+            yield return new WaitForSeconds(Random.Range(25,35));
         }
             
     }
@@ -147,5 +169,14 @@ public class SpawnManager : MonoBehaviour
     public void AsteriodStart()
     {
         _asteriodExploded = true;
+    }
+    public IEnumerator SpawnRarePowerupRoutine()
+    {
+        while (_itemStop == false)
+        {
+            int randomPowerup = Random.Range(3, 5);
+            Instantiate(_powerups[randomPowerup], new Vector3(Random.Range(-9, 9), 8, 0), Quaternion.identity);
+            yield return new WaitForSeconds(Random.Range(20, 30));
+        }
     }
 }

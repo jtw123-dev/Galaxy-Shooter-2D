@@ -1381,11 +1381,11 @@ MonoBehaviour:
   _tripleShotPowerup: {fileID: 7409772924850178942, guid: 7afc3de0450eff94dab4a9264e6fc7f7,
     type: 3}
   _powerups:
-  - {fileID: 7409772924850178942, guid: 7afc3de0450eff94dab4a9264e6fc7f7, type: 3}
+  - {fileID: 5954715593057927902, guid: d184d97ce829b08468c01382c861b630, type: 3}
   - {fileID: 6486819326958349895, guid: 152b0480a487bd3479466452ba13173f, type: 3}
+  - {fileID: 7409772924850178942, guid: 7afc3de0450eff94dab4a9264e6fc7f7, type: 3}
   - {fileID: 2661270249358135433, guid: 6ab6a223d2157884e9569103b77eb1d8, type: 3}
   - {fileID: 278440206241754026, guid: 0a18d11f28cfc1743ab072308a4ed384, type: 3}
-  - {fileID: 5954715593057927902, guid: d184d97ce829b08468c01382c861b630, type: 3}
   - {fileID: 3409071289511845373, guid: b218f54c835c26f4a934900fd417ba70, type: 3}
   _megaShot: {fileID: 7084458967780335936, guid: 126c54a906062f34aab3a711dcbddf93,
     type: 3}

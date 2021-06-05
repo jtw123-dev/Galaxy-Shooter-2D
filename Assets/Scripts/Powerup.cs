@@ -41,27 +41,27 @@ public class Powerup : MonoBehaviour
                 switch (_powerupID)
                 {
                     case 0:
-                        player.TripleShotActive();
-                        _audioSource.Play();
+                        player.AmmoIncrease();
                         Destroy(this.gameObject, 0.3f);
-                        break;
+                        _audioSource.Play();
+                        break;                      
                     case 1:
                         player.SpeedActive();
                         _audioSource.Play();
                         Destroy(this.gameObject, 0.3f);
                         break;
                     case 2:
+                        player.TripleShotActive();
+                        _audioSource.Play();
+                        Destroy(this.gameObject, 0.3f);
+                        break;         
+                    case 3:
                         player.ShieldActive();
                         _audioSource.Play();
                         Destroy(this.gameObject, 0.3f);
                         break;
-                    case 3:
-                        player.IncreaseLife();
-                        Destroy(this.gameObject, 0.3f);
-                        _audioSource.Play();
-                        break;
                     case 4:
-                        player.AmmoIncrease();
+                        player.IncreaseLife();
                         Destroy(this.gameObject, 0.3f);
                         _audioSource.Play();
                         break;

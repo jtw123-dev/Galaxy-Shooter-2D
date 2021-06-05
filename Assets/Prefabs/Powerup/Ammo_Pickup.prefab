@@ -146,7 +146,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 3
-  _powerupID: 4
+  _powerupID: 0
 --- !u!82 &4272465744982115509
 AudioSource:
   m_ObjectHideFlags: 0
