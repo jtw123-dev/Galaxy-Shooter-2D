@@ -2,26 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpawnBehavior
-{
-    public Random random;
-    public string names;
-    public int ID;
-
-    public SpawnBehavior(Random random,string names,int ID )
-    {
-        this.random = random;
-        this.names = names;
-        this.ID = ID;
-    }
-}
-
-
-
 public class SpawnManager : MonoBehaviour
 {
     [SerializeField]
-    private GameObject _enemyPrefab;
+    private GameObject _enemyPrefab;   
     [SerializeField]
     private GameObject _enemyContainer;
     private bool _stopSpawning = false;
@@ -42,11 +26,36 @@ public class SpawnManager : MonoBehaviour
     public List<GameObject> spawnList = new List<GameObject>();
     // private GameObject newEnemy;
     private int _powerupRarity;
-   
+
+   // public int[] table = { 60, 30, 10 };
+   // public int total;
+   // public int randomNumber;
+
 
     private GameObject _health;
 
-   // _health = new SpawnBehavior()
+
+   /* private void Start()
+    {
+        foreach(var item in table)
+        {
+            total += item;
+        }
+        randomNumber = Random.Range(0, total);
+        
+        foreach (var weight in table)
+        {
+            if (randomNumber <= weight)
+            {
+
+            }
+            else
+            {
+                randomNumber -= weight;
+            }               
+        }
+    }*/
+    // _health = new SpawnBehavior()
     public void StartSpawning()
     {
         _manager = GameObject.Find("Canvas").GetComponent<UIManager>();
@@ -74,7 +83,7 @@ public class SpawnManager : MonoBehaviour
                     for (int i =0;i<1; i ++)
                     {
                         float randomX = (Random.Range(9, -9));
-                        GameObject newEnemy = Instantiate(spawnArray[0], new Vector3(randomX, 9, 0), Quaternion.identity);
+                        GameObject newEnemy = Instantiate(spawnArray[Random.Range(0,2)], new Vector3(randomX, 9, 0), Quaternion.identity);
                         newEnemy.transform.parent = _enemyContainer.transform;
                         spawnList.Add(newEnemy);
                         _enemyCount++;                   
@@ -89,16 +98,14 @@ public class SpawnManager : MonoBehaviour
                     for (int i =0;i<2;i++)
                     {
                         float randomX = (Random.Range(9, -9));
-                        GameObject newEnemy = Instantiate(spawnArray[0], new Vector3(randomX, 9, 0), Quaternion.identity);
+                        GameObject newEnemy = Instantiate(spawnArray[Random.Range(0,2)], new Vector3(randomX, 9, 0), Quaternion.identity);
                         newEnemy.transform.parent = _enemyContainer.transform;
                         spawnList.Add(newEnemy);
                         _enemyCount++;
                         
                         if (_enemyCount==2)
-                        {
-                                        
-                            _stopSpawning = true;
-                            
+                        {                                
+                            _stopSpawning = true;               
                         }
                     }
                     break;
@@ -106,7 +113,7 @@ public class SpawnManager : MonoBehaviour
                     for (int i =0;i<3;i++)
                     {
                         float randomX = (Random.Range(9, -9));
-                        GameObject newEnemy = Instantiate(spawnArray[0], new Vector3(randomX, 9, 0), Quaternion.identity);
+                        GameObject newEnemy = Instantiate(spawnArray[Random.Range(0,2)], new Vector3(randomX, 9, 0), Quaternion.identity);
                         newEnemy.transform.parent = _enemyContainer.transform;
                         spawnList.Add(newEnemy);
                         _enemyCount++;                                           

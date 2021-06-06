@@ -16,9 +16,10 @@ public class Enemy : MonoBehaviour
     private bool _sidewaysActive;
     [SerializeField]
     private GameObject _enemyShield;
-    private bool _enemyShieldActive ;
+    private bool _enemyShieldActive;  
+    [SerializeField]
+    private int _shieldCheck;
     private SpawnManager _manager;
-    private bool _canScore = true;
 
     void Start()
     {
@@ -40,6 +41,7 @@ public class Enemy : MonoBehaviour
         }
         _enemyExplode = GameObject.Find("Explosion_Audio").GetComponent<AudioSource>(); // _audioSource = GetComponent.<AudioSource>();
         //if the audioSource is on the enemy
+        ShieldCheck();
     }
 
     // Update is called once per frame
@@ -54,9 +56,7 @@ public class Enemy : MonoBehaviour
             StartCoroutine("SideWaysActive");
         }
 
-        FireEnemyLaser();
-        
-        
+        FireEnemyLaser();            
     }
     private void FireEnemyLaser()
     {
@@ -98,18 +98,17 @@ public class Enemy : MonoBehaviour
     public void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag=="Laser")
-        {
-            
+        {           
             Destroy(other.gameObject);
 
             if (_player!=null &&_enemyShieldActive==false)
-            {
-                
+            {            
                 _player.AddScore(10);
             }
             if (_enemyShieldActive==true)
             {
                 _enemyShieldActive = false;
+                _enemyShield.gameObject.SetActive(false);
                 return;
             }
             else
@@ -130,11 +129,21 @@ public class Enemy : MonoBehaviour
             {
                 player.Damage();                                                         
             }
-            Destroy(GetComponent<Collider2D>());
-            _manager.EnemyDeath();
-            _speed = 0;
-            _animator.SetTrigger("OnEnemyDeath");
-            Destroy(this.gameObject,(2.8f));
+             if (other.tag=="Player"&&_enemyShieldActive==true)
+            {
+                _enemyShieldActive = false;
+                _enemyShield.gameObject.SetActive(false);
+                return;
+            }
+            else
+            {
+                Destroy(GetComponent<Collider2D>());
+                _manager.EnemyDeath();
+                _speed = 0;
+                _animator.SetTrigger("OnEnemyDeath");
+                Destroy(this.gameObject, (2.8f));
+            }
+           
         }       
         if (other.tag=="Powerup")
         {
@@ -161,4 +170,13 @@ public class Enemy : MonoBehaviour
         }          
     }
     
+    private void ShieldCheck()
+    {
+        if (_shieldCheck==1)
+        {
+            _enemyShieldActive = true;
+            _enemyShield.gameObject.SetActive(true);
+        }
+    }
+        
 }
