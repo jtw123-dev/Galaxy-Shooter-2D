@@ -20,7 +20,9 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private int _shieldCheck;
     private SpawnManager _manager;
-
+    [SerializeField]
+    private int _dodgeCheck ;
+    private bool _dodgeActive = true;
     void Start()
     {
         _manager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
@@ -97,6 +99,7 @@ public class Enemy : MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D other)
     {
+        
         if (other.tag=="Laser")
         {           
             Destroy(other.gameObject);
@@ -178,5 +181,19 @@ public class Enemy : MonoBehaviour
             _enemyShield.gameObject.SetActive(true);
         }
     }
-        
+    public void DodgeSpeed()
+    {
+        if (_dodgeActive==true &&_dodgeCheck==1)
+        {
+            _speed = 15;
+            StartCoroutine("Delay");
+        }      
+    }
+        private IEnumerator Delay()
+    {
+        yield return new WaitForSeconds(1);
+        _dodgeActive = false;
+        _speed =4;
+       
+    }
 }

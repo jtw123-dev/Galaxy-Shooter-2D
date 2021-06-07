@@ -83,7 +83,7 @@ public class SpawnManager : MonoBehaviour
                     for (int i =0;i<1; i ++)
                     {
                         float randomX = (Random.Range(9, -9));
-                        GameObject newEnemy = Instantiate(spawnArray[Random.Range(0,2)], new Vector3(randomX, 9, 0), Quaternion.identity);
+                        GameObject newEnemy = Instantiate(spawnArray[Random.Range(0,3)], new Vector3(randomX, 9, 0), Quaternion.identity);
                         newEnemy.transform.parent = _enemyContainer.transform;
                         spawnList.Add(newEnemy);
                         _enemyCount++;                   
@@ -98,7 +98,7 @@ public class SpawnManager : MonoBehaviour
                     for (int i =0;i<2;i++)
                     {
                         float randomX = (Random.Range(9, -9));
-                        GameObject newEnemy = Instantiate(spawnArray[Random.Range(0,2)], new Vector3(randomX, 9, 0), Quaternion.identity);
+                        GameObject newEnemy = Instantiate(spawnArray[Random.Range(0,3)], new Vector3(randomX, 9, 0), Quaternion.identity);
                         newEnemy.transform.parent = _enemyContainer.transform;
                         spawnList.Add(newEnemy);
                         _enemyCount++;
@@ -113,7 +113,7 @@ public class SpawnManager : MonoBehaviour
                     for (int i =0;i<3;i++)
                     {
                         float randomX = (Random.Range(9, -9));
-                        GameObject newEnemy = Instantiate(spawnArray[Random.Range(0,2)], new Vector3(randomX, 9, 0), Quaternion.identity);
+                        GameObject newEnemy = Instantiate(spawnArray[Random.Range(0,3)], new Vector3(randomX, 9, 0), Quaternion.identity);
                         newEnemy.transform.parent = _enemyContainer.transform;
                         spawnList.Add(newEnemy);
                         _enemyCount++;                                           
