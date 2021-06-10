@@ -23,6 +23,8 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private int _dodgeCheck ;
     private bool _dodgeActive = true;
+    
+
     void Start()
     {
         _manager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
@@ -100,7 +102,7 @@ public class Enemy : MonoBehaviour
     public void OnTriggerEnter2D(Collider2D other)
     {
         
-        if (other.tag=="Laser")
+        if (other.tag=="Laser" || other.tag=="Missile")
         {           
             Destroy(other.gameObject);
 

@@ -75,6 +75,11 @@ public class Powerup : MonoBehaviour
                         Destroy(this.gameObject, 0.3f);
                         _audioSource.Play();
                         break;
+                    case 7:
+                        _player.HomingMissle();
+                        Destroy(this.gameObject, 0.3f);
+                        _audioSource.Play();
+                        break;
                 }
         }
         if (other.tag == "EnemyLaser")

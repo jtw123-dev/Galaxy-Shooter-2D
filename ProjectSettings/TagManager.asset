@@ -13,6 +13,7 @@ TagManager:
   - EnemyLaser
   - Powerup
   - Ram
+  - Missile
   layers:
   - Default
   - TransparentFX

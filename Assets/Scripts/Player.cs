@@ -50,14 +50,16 @@ public class Player : MonoBehaviour
     private bool _isThrusterActive = true;
     private CameraShake _cameraShake;
     private Powerup _powerupScript;
+    private bool _homingActive;
+    [SerializeField]
+    private GameObject homingMisslePrefab;
+    
     
    
     
     // Start is called before the first frame update
     void Start()
     {
-        
-
         _shieldToggle.GetComponent<SpriteRenderer>().color = Color.green;
         _laserAudioSource = GameObject.Find("Laser_Audio").GetComponent<AudioSource>();
 
@@ -92,9 +94,7 @@ public class Player : MonoBehaviour
         if (_cameraShake==null)
         {
             Debug.LogError("camera is null");
-        }
-        
-        
+        }            
     }
 
     // Update is called once per frame
@@ -150,11 +150,11 @@ public class Player : MonoBehaviour
     {
         _canFire = Time.time + _fireSpeed;
 
-        if (_isTripleShotActive == false && _isMegaShotActive==false)
+        if (_isTripleShotActive == false && _isMegaShotActive==false && _homingActive==false)
         {
             Instantiate(_laserPrefab, transform.position + _laserOffset, Quaternion.identity);
         }
-        else if (_isTripleShotActive ==true &&_isMegaShotActive==false)
+        else if (_isTripleShotActive ==true &&_isMegaShotActive==false && _homingActive==false)
         {
             Instantiate(_tripleShotPrefab, transform.position + _tripleShotOffset, Quaternion.identity);
         }
@@ -162,6 +162,10 @@ public class Player : MonoBehaviour
         else  if(_isMegaShotActive ==true )
         {
             Instantiate(_megaShotPrefab, transform.position, Quaternion.identity);
+        }
+        else if (_homingActive == true)
+        {
+            Instantiate(homingMisslePrefab, transform.position, Quaternion.identity);
         }
         _laserAudioSource.Play();
     }
@@ -362,4 +366,16 @@ public class Player : MonoBehaviour
 
 
     }  
+
+    private IEnumerator HomingMissleCoolDown()
+    {       
+        yield return new WaitForSeconds(5);
+        _homingActive = false;
+    }
+
+    public void HomingMissle()
+    {
+        _homingActive = true;
+        StartCoroutine("HomingMissleCoolDown");
+    }
 }
