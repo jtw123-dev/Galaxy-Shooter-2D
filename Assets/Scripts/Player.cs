@@ -52,11 +52,8 @@ public class Player : MonoBehaviour
     private Powerup _powerupScript;
     private bool _homingActive;
     [SerializeField]
-    private GameObject homingMisslePrefab;
-    
-    
-   
-    
+    private GameObject homingMisslePrefab;  
+     
     // Start is called before the first frame update
     void Start()
     {

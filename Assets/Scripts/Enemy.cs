@@ -65,11 +65,6 @@ public class Enemy : MonoBehaviour
             Debug.LogError("rb is null");
         }
     }
-
-    private void FixedUpdate()
-    {
-        
-    }
     // Update is called once per frame
     void Update()
     {
