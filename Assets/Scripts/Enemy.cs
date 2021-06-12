@@ -23,10 +23,23 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private int _dodgeCheck ;
     private bool _dodgeActive = true;
-    
+    [SerializeField]
+    private int _specialEnemyCheck ;
+    [SerializeField]
+    private GameObject _specialExplode;
+    [SerializeField]
+    private GameObject _lasershot;
+    private Vector3 _velocity;
+    private Vector3 _gravity;
+    private Rigidbody2D rb;
+    float _speedX;
+    private Laser _laser;
 
     void Start()
     {
+        _velocity = new Vector3(2, 2, 0);
+        _gravity = new Vector3(0, -1.5f, 0);
+
         _manager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         if (_manager==null)
         {
@@ -46,8 +59,17 @@ public class Enemy : MonoBehaviour
         _enemyExplode = GameObject.Find("Explosion_Audio").GetComponent<AudioSource>(); // _audioSource = GetComponent.<AudioSource>();
         //if the audioSource is on the enemy
         ShieldCheck();
+        rb = GetComponent<Rigidbody2D>();
+        if (rb==null)
+        {
+            Debug.LogError("rb is null");
+        }
     }
 
+    private void FixedUpdate()
+    {
+        
+    }
     // Update is called once per frame
     void Update()
     {
@@ -64,7 +86,7 @@ public class Enemy : MonoBehaviour
     }
     private void FireEnemyLaser()
     {
-        if (Time.time > _canFire)
+        if (Time.time > _canFire &&_specialEnemyCheck== 0)
         {
             _fireRate = Random.Range(3, 7);
             _canFire = Time.time + _fireRate;
@@ -73,24 +95,63 @@ public class Enemy : MonoBehaviour
             for (int i = 0; i < lasers.Length; i++)
             {
                 lasers[i].AssignEnemyLaser();
-            }
+            }           
+        }
+        else if (Time.time > _canFire && _specialEnemyCheck == 1)
+        {
+            _fireRate = Random.Range(3, 7);
+            _canFire = Time.time + _fireRate;
+           GameObject superLaser = Instantiate(_lasershot, transform.position, Quaternion.identity);
+            Laser laser = superLaser.GetComponentInChildren<Laser>();
+            laser.AssignEnemyLaser();
         }
     }
 
     private void CalculateMovement()
-    {
-        transform.Translate(Vector3.down * Time.deltaTime * _speed);
+    {   
+        if (_specialEnemyCheck==0)
+        {
+            transform.Translate(Vector3.down * Time.deltaTime * _speed, Space.World);//space world helps with rotation
+        }
+            
+        else if (_specialEnemyCheck ==1)
+        {
+            transform.Translate(Vector3.down * _speed * Time.deltaTime,Space.World);
+            if (transform.position.y<4.5f)
+            {
+                transform.position += _velocity * Time.deltaTime * 2;
+                _velocity += _gravity * Time.deltaTime;
+
+                if (_velocity.y <= -3)
+                {
+                    _velocity.y = 3;
+                }
+                if (transform.position.x > 11)
+                {
+                    transform.position = new Vector3(-11, transform.position.y, 0);
+                }
+                else if (transform.position.x < -11)
+                {
+                    transform.position = new Vector3(11, transform.position.y, 0);
+                }
+            }
+            
+        
+
+        
+    }
+ 
         if (transform.position.y <= -5)
         {
             float randomX = Random.Range(8.7f, -8.7f);
-            transform.position = new Vector3(randomX, 6, 0);
-            _sidewaysActive = true;
-        }
+            transform.position = new Vector3  (randomX, 6, 0);
+            _sidewaysActive = true;                    
+        }        
     }
     private void SideWaysMovement()
     {        
             transform.Translate(Vector3.right * Time.deltaTime * _speed);
-            if (transform.position.y <= -5)
+            if (transform.position.y <= -5 && _specialEnemyCheck==0)
             {
                 float randomX = Random.Range(8.7f, -8.7f);
                 transform.position = new Vector3(randomX, 6, 0);
@@ -116,13 +177,22 @@ public class Enemy : MonoBehaviour
                 _enemyShield.gameObject.SetActive(false);
                 return;
             }
+            if (_specialEnemyCheck ==1)
+            {
+                _enemyExplode.Play();
+                Instantiate(_specialExplode, transform.position, Quaternion.identity);
+                Destroy(GetComponent<Collider2D>());
+                _manager.EnemyDeath();
+                _speed = 0;
+                Destroy(this.gameObject,0.5f);
+            }
             else
             {
                 _speed = 0;              
                 _animator.SetTrigger("OnEnemyDeath");
                 _enemyExplode.Play();
                 Destroy(GetComponent<Collider2D>());
-                Destroy(this.gameObject, (2.8f));
+                Destroy(this.gameObject, 0.5f);
                 _manager.EnemyDeath();
             }           
         }       
@@ -139,6 +209,15 @@ public class Enemy : MonoBehaviour
                 _enemyShieldActive = false;
                 _enemyShield.gameObject.SetActive(false);
                 return;
+            }
+             if (_specialEnemyCheck ==1)
+            {
+                _enemyExplode.Play();
+                Instantiate(_specialExplode, transform.position, Quaternion.identity);
+                Destroy(GetComponent<Collider2D>());
+                _manager.EnemyDeath();
+                _speed = 0;
+                Destroy(this.gameObject,0.5f);
             }
             else
             {
