@@ -126,9 +126,9 @@ public class Player : MonoBehaviour
             transform.Translate(direction * Time.deltaTime * (_speed * _speedMultiplier));
         }
 
-        if (transform.position.y >= 0)
+        if (transform.position.y >= 3)
         {
-            transform.position = new Vector3(transform.position.x, 0, 0);
+            transform.position = new Vector3(transform.position.x, 3, 0);
         }
         else if (transform.position.y <= -3.8f)
         {

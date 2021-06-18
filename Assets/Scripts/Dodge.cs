@@ -9,6 +9,10 @@ public class Dodge : MonoBehaviour
     void Start()
     {
         _enemy = GameObject.Find("Dodge_Enemy").GetComponent<Enemy>();
+        if (_enemy ==null)
+        {
+            Debug.LogError("_enemy is null");
+        }
     }
 
     // Update is called once per frame

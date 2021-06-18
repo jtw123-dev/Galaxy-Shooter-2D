@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    private float _speed = 4;
+   [SerializeField] private float _speed = 4;
     private Player _player;
     private int _points;
     private Animator _animator;
@@ -23,6 +23,7 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private int _dodgeCheck ;
     private bool _dodgeActive = true;
+   [SerializeField] private bool _smartCheck;
     [SerializeField]
     private int _specialEnemyCheck ;
     [SerializeField]
@@ -34,6 +35,8 @@ public class Enemy : MonoBehaviour
     private Rigidbody2D rb;
     float _speedX;
     private Laser _laser;
+    [SerializeField]
+    private int _enemyID;
 
     void Start()
     {
@@ -96,7 +99,7 @@ public class Enemy : MonoBehaviour
         {
             _fireRate = Random.Range(3, 7);
             _canFire = Time.time + _fireRate;
-           GameObject superLaser = Instantiate(_lasershot, transform.position, Quaternion.identity);
+            GameObject superLaser = Instantiate(_lasershot, transform.position, Quaternion.identity);
             Laser laser = superLaser.GetComponentInChildren<Laser>();
             laser.AssignEnemyLaser();
         }
@@ -144,16 +147,29 @@ public class Enemy : MonoBehaviour
         }        
     }
     private void SideWaysMovement()
-    {        
-            transform.Translate(Vector3.right * Time.deltaTime * _speed);
-            if (transform.position.y <= -5 && _specialEnemyCheck==0)
-            {
-                float randomX = Random.Range(8.7f, -8.7f);
-                transform.position = new Vector3(randomX, 6, 0);
-                _sidewaysActive = false;
-                CalculateMovement();
-            }       
+    {
+        transform.Translate(Vector3.right * Time.deltaTime * _speed);
+        if (transform.position.y <= -5 && _specialEnemyCheck == 0)
+        {
+            float randomX = Random.Range(8.7f, -8.7f);
+            transform.position = new Vector3(randomX, 6, 0);
+            _sidewaysActive = false;
+            CalculateMovement();
+        }
+        if (transform.position.x > 10.5f)
+        {
+            float randomX = Random.Range(8.7f, -8.7f);
+            transform.position = new Vector3(randomX, 6, 0);
+        }
+        if (transform.position.x < -10.5f)
+        {
+            float randomX = Random.Range(8.7f, -8.7f);
+            transform.position = new Vector3(randomX, 6, 0);
+        }
+    
     }
+
+    
 
     public void OnTriggerEnter2D(Collider2D other)
     {
@@ -233,7 +249,7 @@ public class Enemy : MonoBehaviour
                 lasers[i].AssignEnemyLaser();
             }
         }
-        if (other.tag=="Ram")
+        if (other.tag=="Ram" &&_smartCheck==false)
         {
             _speed = 12;
         }
@@ -264,6 +280,17 @@ public class Enemy : MonoBehaviour
             _speed = 15;
             StartCoroutine("Delay");
         }      
+    }
+
+    public void SmartAttack ()
+    {
+        if (_smartCheck ==true)
+        {
+            GameObject superLaser = Instantiate(_enemyLaserPrefab, transform.position, Quaternion.identity);
+            Laser laser = superLaser.GetComponentInChildren<Laser>();
+            laser.SmartLaser();
+            
+        }
     }
         private IEnumerator Delay()
     {

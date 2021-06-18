@@ -242,6 +242,10 @@ MonoBehaviour:
   _enemyShield: {fileID: 0}
   _shieldCheck: 0
   _dodgeCheck: 1
+  _specialEnemyCheck: 0
+  _specialExplode: {fileID: 0}
+  _lasershot: {fileID: 0}
+  _enemyID: 1
 --- !u!95 &189577041600824057
 Animator:
   serializedVersion: 3

@@ -250,6 +250,11 @@ MonoBehaviour:
     type: 3}
   _enemyShield: {fileID: 2734157671388390937}
   _shieldCheck: 1
+  _dodgeCheck: 0
+  _specialEnemyCheck: 0
+  _specialExplode: {fileID: 0}
+  _lasershot: {fileID: 0}
+  _enemyID: 3
 --- !u!95 &383330099
 Animator:
   serializedVersion: 3

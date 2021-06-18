@@ -27,11 +27,17 @@ public class UIManager : MonoBehaviour
     private bool _isMaxAmmo;
     [SerializeField]
     private Text _waveText;
-    public int currentWave;
+    private int currentWave;
+    private SpawnManager _spawnManager;
 
     // Start is called before the first frame update
     void Start()
     {
+        _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
+        if (_spawnManager ==null)
+        {
+            Debug.LogError("_spawnManager is null");
+        }
         _gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
         if (_gameManager==null)
         {
@@ -44,7 +50,7 @@ public class UIManager : MonoBehaviour
         {
             Debug.LogError("Player is null");
         }
-        StartCoroutine(WaveFlicker(currentWave));
+        
     }
 
     // Update is called once per frame
@@ -57,11 +63,6 @@ public class UIManager : MonoBehaviour
         _scoreText.text = "Score: " + playerScore.ToString();
     }
 
-    public void WaveUpdate (int currentWave)
-    {
-        _waveText.text = "Wave: 0";
-        StartCoroutine(WaveFlicker(currentWave));
-    }
     public void UpdateLives(int currentLives)
     {
         _livesImg.sprite = _liveSprites[currentLives];
@@ -99,15 +100,18 @@ public class UIManager : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
         }    
     }  
-     public IEnumerator  WaveFlicker (int currentWave)
+    
+    public void SpawnNextWave()
     {
-        for (int i = 0; i < 3; i++)
-        {
-            _waveText.gameObject.SetActive(true);
-            _waveText.text = "Wave: " + currentWave.ToString();
-            yield return new WaitForSeconds(0.6f);
-            _waveText.gameObject.SetActive(false);
-            yield return new WaitForSeconds(0.6f);
-        }
+        StartCoroutine(WaveTextEnableRoutine());
+    }
+   private  IEnumerator WaveTextEnableRoutine()
+    {
+        _waveText.text = "Wave " + _spawnManager.GetWaveNumber();
+        _waveText.gameObject.SetActive(true);
+        _spawnManager.EnableNextWaveSpawning();
+
+        yield return new WaitForSeconds(3);
+        _waveText.gameObject.SetActive(false);
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Special_Enemy : MonoBehaviour
 {
-    private int _speed = 4;
+    //private int _speed = 4;
     private SpawnManager _manager;
     private Player _player;
     private Animator _animator;
@@ -49,7 +49,7 @@ public class Special_Enemy : MonoBehaviour
             }                  
             else
             {
-                _speed = 0;
+               // _speed = 0;
                 _animator.SetTrigger("OnEnemyDeath");
                 _enemyExplode.Play();
                 Destroy(GetComponent<Collider2D>());
@@ -69,7 +69,7 @@ public class Special_Enemy : MonoBehaviour
             {
                 Destroy(GetComponent<Collider>());
                 _manager.EnemyDeath();
-                _speed = 0;
+               // _speed = 0;
                 _animator.SetTrigger("OnEnemyDeath");
                 Destroy(this.gameObject, (2.8f));
             }
@@ -85,7 +85,7 @@ public class Special_Enemy : MonoBehaviour
         }
         if (other.tag == "Ram")
         {
-            _speed = 12;
+            //_speed = 12;
         }
     }
 }
