@@ -79,7 +79,7 @@ public class SpawnManager : MonoBehaviour
                     {
                 
                         float randomX = (Random.Range(9, -9));
-                        GameObject newEnemy = Instantiate(spawnArray[_level], new Vector3(randomX, 9, 0), Quaternion.identity);
+                        GameObject newEnemy = Instantiate(spawnArray[0], new Vector3(randomX, 9, 0), Quaternion.identity);
                         newEnemy.transform.parent = _enemyContainer.transform;
                         _currentEnemies++;
                         yield return new WaitForSeconds(_spawnRate);

@@ -23,7 +23,7 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private int _dodgeCheck ;
     private bool _dodgeActive = true;
-   [SerializeField] private bool _smartCheck;
+    [SerializeField] private bool _smartCheck;
     [SerializeField]
     private int _specialEnemyCheck ;
     [SerializeField]
@@ -37,6 +37,7 @@ public class Enemy : MonoBehaviour
     private Laser _laser;
     [SerializeField]
     private int _enemyID;
+    [SerializeField] private GameObject _smartLaser;
 
     void Start()
     {
@@ -282,21 +283,24 @@ public class Enemy : MonoBehaviour
         }      
     }
 
-    public void SmartAttack ()
+    public void SmartAttack()
     {
-        if (_smartCheck ==true)
+        if (_smartCheck == true)
         {
-            GameObject superLaser = Instantiate(_enemyLaserPrefab, transform.position, Quaternion.identity);
-            Laser laser = superLaser.GetComponentInChildren<Laser>();
-            laser.SmartLaser();
-            
+           GameObject smart = Instantiate(_smartLaser, transform.position, Quaternion.identity);
+            Laser smartLasers = smart.GetComponentInChildren<Laser>();
+            smartLasers.SmartLaser();
         }
     }
-        private IEnumerator Delay()
+
+
+
+private IEnumerator Delay()
     {
         yield return new WaitForSeconds(1);
         _dodgeActive = false;
         _speed =4;
        
     }
+
 }

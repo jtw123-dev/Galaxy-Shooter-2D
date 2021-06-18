@@ -47,8 +47,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 975af0e369a1d754e8473861b782a3e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _speed: 4
   _enemyLaserPrefab: {fileID: 702231289420575201, guid: 27ed10eac73b3574183df35c918c9faf,
     type: 3}
+  _enemyShield: {fileID: 0}
+  _shieldCheck: 0
+  _dodgeCheck: 0
+  _smartCheck: 0
+  _specialEnemyCheck: 0
+  _specialExplode: {fileID: 0}
+  _lasershot: {fileID: 0}
+  _enemyID: 0
 --- !u!212 &1003649935027073714
 SpriteRenderer:
   m_ObjectHideFlags: 0

@@ -28,7 +28,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7713609892149015674}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 5.66, y: 2.02, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -164,7 +164,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 975af0e369a1d754e8473861b782a3e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 2
+  _speed: 3
   _enemyLaserPrefab: {fileID: 702231289420575201, guid: 27ed10eac73b3574183df35c918c9faf,
     type: 3}
   _enemyShield: {fileID: 0}
@@ -174,7 +174,9 @@ MonoBehaviour:
   _specialEnemyCheck: 0
   _specialExplode: {fileID: 0}
   _lasershot: {fileID: 0}
-  _enemyID: 4
+  _enemyID: 0
+  _smartLaser: {fileID: 6918985705168197873, guid: 53b45d0fd8a4dbd4294543b7eeb57126,
+    type: 3}
 --- !u!1 &7713609893604699629
 GameObject:
   m_ObjectHideFlags: 0
@@ -246,8 +248,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7990395c18d10614897a47a5d3ecfd8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemyLaser: {fileID: 702231289420575201, guid: 27ed10eac73b3574183df35c918c9faf,
-    type: 3}
 --- !u!50 &7713609893604699617
 Rigidbody2D:
   serializedVersion: 4
