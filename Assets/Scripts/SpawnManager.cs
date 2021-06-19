@@ -32,6 +32,7 @@ public class SpawnManager : MonoBehaviour
     public int total;
     public int randomNumber;
     public int enemySelection;
+    private int _maxSpawnEnemyNumber;
     
     public  int _enemyToSpawn;
 
@@ -39,8 +40,13 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private bool _spawnEnemyWave = true;
     [SerializeField] private int _currentEnemies = 0;
     [SerializeField] private int _enemiesInCurrentWave = 2;
-    [SerializeField] private int _waveNumber = 0;
+    [SerializeField] private int _waveNumber = 1;
     private float _spawnRate;
+
+    [SerializeField] private GameObject _bossPrefab;
+    private bool _bossIsActive =true;
+
+
 
     private void Start()
     {
@@ -49,6 +55,13 @@ public class SpawnManager : MonoBehaviour
 
     public void Update()
     {    
+        if (_currentEnemies==0 &&_waveNumber==6 && _bossIsActive==true)
+        {
+            Instantiate(_bossPrefab, new Vector3(0,9.3f,0), Quaternion.identity);
+            _bossIsActive = false;
+            _isGameActive = false;  //maybe make Stop courtoutine SpawnEnemy stop       
+        }
+
         if (_currentEnemies==0 &&_spawnEnemyWave==false)
         {
             _manager.SpawnNextWave();
@@ -57,7 +70,7 @@ public class SpawnManager : MonoBehaviour
     
         if (_isGameActive==false)
         {
-            //StopCoroutine(SpawnCommonPowerupRoutine());
+            StopCoroutine(SpawnCommonPowerupRoutine());
            // StopCoroutine(SpawnRarePowerupRoutine());
             StopCoroutine(SpawnEnemyRoutine());
         }
@@ -74,12 +87,12 @@ public class SpawnManager : MonoBehaviour
         while (_isGameActive  && _spawnEnemyWave )
         {
             ChooseEnemy();
-            ChooseAPowerup();
+            
             for (int i =0;i<_enemiesInCurrentWave; i ++)
                     {
                 
-                        float randomX = (Random.Range(9, -9));
-                        GameObject newEnemy = Instantiate(spawnArray[0], new Vector3(randomX, 9, 0), Quaternion.identity);
+                float randomX = (Random.Range(9, -9));
+                        GameObject newEnemy = Instantiate(spawnArray[_level], new Vector3(randomX, 9, 0), Quaternion.identity);
                         newEnemy.transform.parent = _enemyContainer.transform;
                         _currentEnemies++;
                         yield return new WaitForSeconds(_spawnRate);
@@ -95,15 +108,15 @@ public class SpawnManager : MonoBehaviour
                     _spawnEnemyWave = false;
         }
     }
-   /* IEnumerator  SpawnCommonPowerupRoutine ()
+    IEnumerator  SpawnCommonPowerupRoutine ()
     {
          while ( _itemStop==false)
         {
-                    int randomPowerup = Random.Range(0, 2);
-                    Instantiate(_powerups[randomPowerup], new Vector3(Random.Range(-9, 9), 8, 0), Quaternion.identity);
+            ChooseAPowerup();
+            Instantiate(_powerups[_powerupToSpawn], new Vector3(Random.Range(-9, 9), 8, 0), Quaternion.identity);
                     yield return new WaitForSeconds(Random.Range(3, 5));
                 }
-    }*/
+    }
     IEnumerator SpawnMegaShotRoutine()
     {
         while (_itemStop==false)
@@ -120,16 +133,6 @@ public class SpawnManager : MonoBehaviour
     {      
         _currentEnemies--;             
     }   
-   /* public IEnumerator SpawnRarePowerupRoutine()
-    {
-        while (_itemStop == false)
-        {
-            int randomPowerup = Random.Range(3, 6);
-            Instantiate(_powerups[randomPowerup], new Vector3(Random.Range(-9, 9), 8, 0), Quaternion.identity);
-            yield return new WaitForSeconds(Random.Range(20, 30));
-        }
-    }*/
-
     private void ChooseAPowerup()
     {
         _weightedTotal = 0;
@@ -137,22 +140,22 @@ public class SpawnManager : MonoBehaviour
         int[] powerupTable =
         {
             40,//ammo
-            25,//missile
-            16,//health
+            25,//speed
+            16,//tripleShot
             8,//shield
             6,//speed
-            3,//tripleSpeed
+            3,//home
             2 // negative
         };
         int[] powerupToAward =
         {
-            3,
-            5,
-            4,
-            2,
-            1,
-            0,
-            6
+            0,//ammo 
+            1,//speed
+            2,//tripleShot
+            3,//Shield
+            4,//Health
+            6,//home
+            5//poison
         };
         foreach (var item in powerupTable)
         {
@@ -175,23 +178,22 @@ public class SpawnManager : MonoBehaviour
             }
         }
     }
-
-
     private void ChooseEnemy()
     {
         _weightedTotal = 0;
 
-        var _enemiesInCurrentWave = _level;
-        if(_enemiesInCurrentWave> spawnArray.Length)
+        var _maxSpawnEnemyNumber = _level;
+        if(_maxSpawnEnemyNumber> spawnArray.Length)
         {
-            _enemiesInCurrentWave = spawnArray.Length;
+            _maxSpawnEnemyNumber = spawnArray.Length;
         }
         int[] enemyTable =
         {
-            50,//main 
+            40,//main 
             25,//dodge
-            15,//shield
-            10,//drunk
+            20,//smart
+            10,//shield
+            5,//drunk
         };
         int[] enemyID =
         {
@@ -201,13 +203,13 @@ public class SpawnManager : MonoBehaviour
             3,
             4
         };
-        for (int i =0; i<_enemiesInCurrentWave; i++)
+        for (int i =0; i<_maxSpawnEnemyNumber; i++)
         {
             _weightedTotal += enemyTable[i];
         }
         var randomNumber = Random.Range(0, _weightedTotal);
         var x = 0;
-        foreach (var weight in table)
+        foreach (var weight in enemyTable)
         {
             if (randomNumber <= weight)
             {
@@ -245,8 +247,17 @@ public class SpawnManager : MonoBehaviour
     {
         _manager.SpawnNextWave();
         StartCoroutine(SpawnEnemyRoutine());
-       // StartCoroutine(SpawnCommonPowerupRoutine());
+        StartCoroutine(SpawnCommonPowerupRoutine());
        // StartCoroutine(SpawnRarePowerupRoutine());
         StartCoroutine("SpawnMegaShotRoutine");
     }   
 }
+/* public IEnumerator SpawnRarePowerupRoutine()
+    {
+        while (_itemStop == false)
+        {
+            int randomPowerup = Random.Range(3, 6);
+            Instantiate(_powerups[randomPowerup], new Vector3(Random.Range(-9, 9), 8, 0), Quaternion.identity);
+            yield return new WaitForSeconds(Random.Range(20, 30));
+        }
+    }*/

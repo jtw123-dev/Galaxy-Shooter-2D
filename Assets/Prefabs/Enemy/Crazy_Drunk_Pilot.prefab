@@ -95,16 +95,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 975af0e369a1d754e8473861b782a3e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _speed: 4
   _enemyLaserPrefab: {fileID: 0}
   _enemyShield: {fileID: 0}
   _shieldCheck: 0
   _dodgeCheck: 0
+  _smartCheck: 0
   _specialEnemyCheck: 1
   _specialExplode: {fileID: 1290715649332758, guid: 587eaecaa621be74486f351c78b4f0a8,
     type: 3}
   _lasershot: {fileID: 5478424478618045095, guid: adfb49ee9e9f2f542a6d70ff3a96119e,
     type: 3}
-  _enemyID: 2
+  _enemyID: 3
+  _smartLaser: {fileID: 0}
 --- !u!70 &5711015961788522626
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

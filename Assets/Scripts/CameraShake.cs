@@ -9,14 +9,14 @@ public class CameraShake : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _resetPos = new Vector3(0, 1, -10);
+        _resetPos = new Vector3(0, 1, -15);
     }
 
    public IEnumerator ShakeCamera()
     {
-        transform.position = new Vector3 (-0.5f,0.8f,-10);        
+        transform.position = new Vector3 (-0.5f,0.8f,-15);        
        yield return new WaitForSeconds(0.05f);
-        transform.position = new Vector3(0.5f, 0.8f, -10);
+        transform.position = new Vector3(0.5f, 0.8f, -15);
         yield return new WaitForSeconds(0.05f);
         transform.position = _resetPos;
     }

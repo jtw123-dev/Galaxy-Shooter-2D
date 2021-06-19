@@ -38,9 +38,14 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private int _enemyID;
     [SerializeField] private GameObject _smartLaser;
+    [SerializeField]private int _randShield;
+
+
 
     void Start()
     {
+        
+
         _velocity = new Vector3(2, 2, 0);
         _gravity = new Vector3(0, -1.5f, 0);
 
@@ -268,10 +273,11 @@ public class Enemy : MonoBehaviour
     
     private void ShieldCheck()
     {
-        if (_shieldCheck==1)
+        _randShield = Random.Range(0, 50);
+        if (_shieldCheck==1 && _randShield<=25)
         {
-            _enemyShieldActive = true;
-            _enemyShield.gameObject.SetActive(true);
+                _enemyShieldActive = true;
+                _enemyShield.gameObject.SetActive(true);                  
         }
     }
     public void DodgeSpeed()

@@ -8,11 +8,11 @@ public class Dodge : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _enemy = GameObject.Find("Dodge_Enemy").GetComponent<Enemy>();
+       /* _enemy = GameObject.Find("Dodge_Enemy").GetComponent<Enemy>();
         if (_enemy ==null)
         {
             Debug.LogError("_enemy is null");
-        }
+        }*/
     }
 
     // Update is called once per frame
@@ -24,7 +24,7 @@ public class Dodge : MonoBehaviour
     {
         if (other.tag == "Laser")
         {
-            _enemy.DodgeSpeed();
+            this.transform.parent.GetComponent<Enemy>().DodgeSpeed();         
         }    
     }   
 }

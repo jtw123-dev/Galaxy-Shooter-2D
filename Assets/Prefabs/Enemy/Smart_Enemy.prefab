@@ -174,7 +174,7 @@ MonoBehaviour:
   _specialEnemyCheck: 0
   _specialExplode: {fileID: 0}
   _lasershot: {fileID: 0}
-  _enemyID: 0
+  _enemyID: 2
   _smartLaser: {fileID: 6918985705168197873, guid: 53b45d0fd8a4dbd4294543b7eeb57126,
     type: 3}
 --- !u!1 &7713609893604699629
