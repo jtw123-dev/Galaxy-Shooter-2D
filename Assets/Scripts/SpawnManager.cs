@@ -18,9 +18,9 @@ public class SpawnManager : MonoBehaviour
     private bool _itemStop = false;
     public GameObject[] spawnArray;
     public List<GameObject> spawnList = new List<GameObject>();
-    private int _powerupRarity;
-    private GameObject newEnemy;
-    private GameObject _health;
+   // private int _powerupRarity;
+   // private GameObject newEnemy;
+   // private GameObject _health;
 
     private float _weightedTotal;
     private int _powerupToSpawn;
@@ -39,14 +39,12 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private bool _isGameActive = true;
     [SerializeField] private bool _spawnEnemyWave = true;
     [SerializeField] private int _currentEnemies = 0;
-    [SerializeField] private int _enemiesInCurrentWave = 2;
+    [SerializeField] private int _enemiesInCurrentWave = 1;
     [SerializeField] private int _waveNumber = 1;
     private float _spawnRate;
 
     [SerializeField] private GameObject _bossPrefab;
     private bool _bossIsActive =true;
-
-
 
     private void Start()
     {
@@ -55,8 +53,9 @@ public class SpawnManager : MonoBehaviour
 
     public void Update()
     {    
-        if (_currentEnemies==0 &&_waveNumber==6 && _bossIsActive==true)
+        if (_currentEnemies==0 &&_waveNumber==5 && _bossIsActive==true)
         {
+            StartCoroutine("Delay");
             Instantiate(_bossPrefab, new Vector3(0,9.3f,0), Quaternion.identity);
             _bossIsActive = false;
             _isGameActive = false;  //maybe make Stop courtoutine SpawnEnemy stop       
@@ -82,15 +81,13 @@ public class SpawnManager : MonoBehaviour
     }
     IEnumerator SpawnEnemyRoutine()
     {
-        yield return new WaitForSeconds(3);
-        
+        yield return new WaitForSeconds(3);      
         while (_isGameActive  && _spawnEnemyWave )
         {
             ChooseEnemy();
             
             for (int i =0;i<_enemiesInCurrentWave; i ++)
-                    {
-                
+                    {              
                 float randomX = (Random.Range(9, -9));
                         GameObject newEnemy = Instantiate(spawnArray[_level], new Vector3(randomX, 9, 0), Quaternion.identity);
                         newEnemy.transform.parent = _enemyContainer.transform;
@@ -248,16 +245,10 @@ public class SpawnManager : MonoBehaviour
         _manager.SpawnNextWave();
         StartCoroutine(SpawnEnemyRoutine());
         StartCoroutine(SpawnCommonPowerupRoutine());
-       // StartCoroutine(SpawnRarePowerupRoutine());
         StartCoroutine("SpawnMegaShotRoutine");
     }   
-}
-/* public IEnumerator SpawnRarePowerupRoutine()
+    private IEnumerator Delay()
     {
-        while (_itemStop == false)
-        {
-            int randomPowerup = Random.Range(3, 6);
-            Instantiate(_powerups[randomPowerup], new Vector3(Random.Range(-9, 9), 8, 0), Quaternion.identity);
-            yield return new WaitForSeconds(Random.Range(20, 30));
-        }
-    }*/
+        yield return new WaitForSeconds(3);
+    }
+}

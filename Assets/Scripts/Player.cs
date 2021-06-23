@@ -39,7 +39,6 @@ public class Player : MonoBehaviour
     [SerializeField]
     private int _totalAmmo = 15;
     private int _shieldStrength = 3;
-    private SpriteRenderer _renderer;
     private bool _isMegaShotActive;
     [SerializeField]
     private GameObject _megaShotPrefab;
@@ -49,7 +48,6 @@ public class Player : MonoBehaviour
     private float _thrusterUsage = 20;
     private bool _isThrusterActive = true;
     private CameraShake _cameraShake;
-    private Powerup _powerupScript;
     private bool _homingActive;
     [SerializeField]
     private GameObject homingMisslePrefab;  

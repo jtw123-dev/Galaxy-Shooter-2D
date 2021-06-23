@@ -6,6 +6,7 @@ public class HomingMissle : MonoBehaviour
 {
     [SerializeField]
     private GameObject _target = null;
+    [SerializeField] Transform _playerTarget;
     [SerializeField]
     private GameObject[] _activeEnemies;
     private float _speed = 5;
@@ -17,11 +18,9 @@ public class HomingMissle : MonoBehaviour
     {
        _target = CalculateClosestEnemy();
     }
-
     // Update is called once per frame
     void Update()
     {
-
         MoveToTarget();
         if (transform.position.y<=-9)
         {
@@ -59,14 +58,11 @@ public class HomingMissle : MonoBehaviour
                 var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
                 var offset = 90f;
                 transform.rotation = Quaternion.Euler(Vector3.forward * (angle + offset));
-            }
-           
+            }         
         }
         if (_target ==null)
         {
             _target = CalculateClosestEnemy();
         }
-    }
-
-    
+    }    
 }

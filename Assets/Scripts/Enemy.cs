@@ -44,8 +44,8 @@ public class Enemy : MonoBehaviour
 
     void Start()
     {
-        
 
+        _randShield = Random.Range(0, 50);
         _velocity = new Vector3(2, 2, 0);
         _gravity = new Vector3(0, -1.5f, 0);
 
@@ -272,9 +272,8 @@ public class Enemy : MonoBehaviour
     }
     
     private void ShieldCheck()
-    {
-        _randShield = Random.Range(0, 50);
-        if (_shieldCheck==1 && _randShield<=25)
+    {       
+        if (_shieldCheck==1 && _randShield<=25 )
         {
                 _enemyShieldActive = true;
                 _enemyShield.gameObject.SetActive(true);                  
