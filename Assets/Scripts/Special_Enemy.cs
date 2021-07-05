@@ -31,12 +31,6 @@ public class Special_Enemy : MonoBehaviour
         }
         _enemyExplode = GameObject.Find("Explosion_Audio").GetComponent<AudioSource>();
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     public void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Laser" || other.tag == "Missile")
