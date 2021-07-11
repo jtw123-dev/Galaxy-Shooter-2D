@@ -201,7 +201,7 @@ public class Enemy : MonoBehaviour
                 Destroy(GetComponent<Collider2D>());
                 _manager.EnemyDeath();
                 _speed = 0;
-                Destroy(this.gameObject,0.5f);
+                Destroy(this.gameObject,2.5f);
             }
             else
             {
@@ -209,7 +209,7 @@ public class Enemy : MonoBehaviour
                 _animator.SetTrigger("OnEnemyDeath");
                 _enemyExplode.Play();
                 Destroy(GetComponent<Collider2D>());
-                Destroy(this.gameObject, 0.5f);
+                Destroy(this.gameObject, 2.5f);
                 _manager.EnemyDeath();
             }           
         }       
@@ -234,7 +234,7 @@ public class Enemy : MonoBehaviour
                 Destroy(GetComponent<Collider2D>());
                 _manager.EnemyDeath();
                 _speed = 0;
-                Destroy(this.gameObject,0.5f);
+                Destroy(this.gameObject,2.5f);
             }
             else
             {
@@ -289,7 +289,7 @@ public class Enemy : MonoBehaviour
     }
 
     public void SmartAttack()
-    {
+   {
         if (_smartCheck == true)
         {
            GameObject smart = Instantiate(_smartLaser, transform.position, Quaternion.identity);

@@ -18,7 +18,6 @@ public class Smart : MonoBehaviour
     {
         if (other.tag=="Player")
         {
-            _enemy.SmartAttack();
             this.transform.parent.GetComponent<Enemy>().SmartAttack();          
         }
     }

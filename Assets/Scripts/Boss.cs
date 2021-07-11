@@ -19,9 +19,11 @@ public class Boss : MonoBehaviour
     [SerializeField] private GameObject _mineExplosion;
     [SerializeField] private GameObject _minePrefab;
     private AudioSource _explosionSound;
+    private UIManager _manager;
 
     private void Start()
     {
+        _manager = GameObject.Find("Canvas").GetComponent<UIManager>();
         _explosionSound = GameObject.Find("Explosion_Audio").GetComponent<AudioSource>();
     }
 
@@ -98,6 +100,7 @@ public class Boss : MonoBehaviour
         if (_enemyHealth <=0)
         {
             _bossIsAlive = false;
+            _manager.GameOver();
         }
     }
 }
